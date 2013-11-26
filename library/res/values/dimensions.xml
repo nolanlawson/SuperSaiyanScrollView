@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	
+    <!--  use for single letter sections -->
+    <dimen name="fast_scroll_overlay_width_small">75dp</dimen>
+    <dimen name="fast_scroll_overlay_text_size_small">26dp</dimen>
+    
+    <!--  use for sections with up to approximately 10 letters -->
+	<dimen name="fast_scroll_overlay_width_normal">240dp</dimen>
+	<dimen name="fast_scroll_overlay_text_size_normal">24dp</dimen>
+	
+	<!--  use for sections with a bit more text -->
+	<dimen name="fast_scroll_overlay_width_large">325dp</dimen>
+    <dimen name="fast_scroll_overlay_text_size_large">24dp</dimen>	
+    
+    <!--  use for sections with very long text -->
+    <dimen name="fast_scroll_overlay_width_xlarge">325dp</dimen>
+    <dimen name="fast_scroll_overlay_text_size_xlarge">15dp</dimen>  
+    
+    <dimen name="text_size_list_header">17sp</dimen>
+</resources>

@@ -1,0 +1,14 @@
+<!--  darker gray background on pre-v11 -->
+<TextView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/list_header_title"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:paddingTop="2dip"
+    android:paddingBottom="2dip"
+    android:paddingLeft="5dip"
+    android:textSize="@dimen/text_size_list_header"
+    android:background="@android:color/darker_gray"
+    android:textColor="@android:color/primary_text_dark_nodisable"
+    android:textStyle="bold"
+    />
