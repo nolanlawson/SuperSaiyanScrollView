@@ -26,19 +26,25 @@ import com.nolanlawson.supersaiyan.R;
 public class SeparatedListAdapter<T extends BaseAdapter> extends BaseAdapter implements SectionIndexer {
 	
 	// How many sections to require in order to show the fast scroll overlays
-	private static final int MIN_NUM_SECTIONS_FOR_SECTION_OVERLAYS = 2;
-	// How many items to require in order to show the fast scroll overlays
-	private static final int MIN_NUM_ITEMS_FOR_SECTION_OVERLAYS = 10;
 	
 	public static final int TYPE_SECTION_HEADER = 0;
 	public static final int TYPE_SECTION_CONTENT = 1;
 	public static final int NUM_TYPES = 2;
 	
+	private boolean showSectionOverlays = true;
+	
 	public Map<String,T> sections = new LinkedHashMap<String,T>();
 	public TypeCheckingArrayAdapter<String> headers;
 
 	private SectionIndexer sectionIndexer;
-
+    
+	/**
+     * Create a new separated list adapter, i.e. an adapter with a title and a body for each section.
+     * 
+     * Sets showSectionOverlays to true by default.
+     * 
+     * @param context
+     */
 	public SeparatedListAdapter(Context context) {
 		headers = new TypeCheckingArrayAdapter<String>(context, R.layout.list_header);
 	}
@@ -55,35 +61,6 @@ public class SeparatedListAdapter<T extends BaseAdapter> extends BaseAdapter imp
 		return sections.values();
 	}
 	
-	public void addSection(String section, T adapter) {
-		this.headers.add(section);
-		this.sections.put(section, adapter);
-	}
-	
-	/**
-	 * 
-	 * Add a section to the specified index of the LinkedHashMap.
-	 * @param section
-	 * @param adapter
-	 */
-	public void insertSection(String section, int i, T adapter) {
-		this.headers.insert(section, i);
-		
-		// lame solution... create a new linkedhashmap and fit it in at the index
-		Map<String,T> newSections = new LinkedHashMap<String,T>();
-		
-		if (i == 0) {
-			newSections.put(section, adapter);
-		}
-		int count = 0;
-		for (String oldSection : sections.keySet()) {
-			newSections.put(oldSection, sections.get(oldSection));
-			if (i == ++count) {
-				newSections.put(section, adapter);
-			}
-		}
-		sections = newSections;
-	}
 	
 	public ArrayAdapter<String> getSectionHeaders() {
 		return headers;
@@ -225,7 +202,7 @@ public class SeparatedListAdapter<T extends BaseAdapter> extends BaseAdapter imp
 	 */
 	private SectionIndexer createSectionIndexer() {
 		
-		if (!enoughToShowOverlays()) {
+		if (!showSectionOverlays) {
 			return createEmptySectionIndexer();
 		}
 		
@@ -291,9 +268,84 @@ public class SeparatedListAdapter<T extends BaseAdapter> extends BaseAdapter imp
 		};
 	}
 	
-	private boolean enoughToShowOverlays() {
-		int numHeaders = headers.getCount();
-		return numHeaders >= MIN_NUM_SECTIONS_FOR_SECTION_OVERLAYS && 
-				(getCount() - numHeaders) >= MIN_NUM_ITEMS_FOR_SECTION_OVERLAYS;
+	public static class Builder<T extends BaseAdapter> {
+	    
+	    private SeparatedListAdapter<T> result;
+	    
+	    private Builder(Context context) {
+	        result = new SeparatedListAdapter<T>(context);
+	    }
+	    
+	    public static <T extends BaseAdapter> Builder<T> create(Context context) {
+	        return new Builder<T>(context);
+	    }
+	    
+	    public SeparatedListAdapter<T> setShowSectionOverlays(boolean showSectionOverlays) {
+            result.showSectionOverlays = showSectionOverlays;
+            return result;
+        }
+	    
+        /**
+         * Sets all the sections at once, from the given map
+         * @param section
+         * @param adapter
+         * @return
+         */
+        public SeparatedListAdapter<T> setSections(Map<String, T> sections) {
+            result.headers.clear();
+            result.sections.clear();
+            
+            for (Entry<String,T> entry : sections.entrySet()) {
+                result.headers.add(entry.getKey());
+                result.sections.put(entry.getKey(), entry.getValue());
+            }
+            
+            return result;
+        }
+	    
+	    /**
+	     * Adds a section with the given adapter
+	     * @param section
+	     * @param adapter
+	     * @return
+	     */
+	    public SeparatedListAdapter<T> addSection(String section, T adapter) {
+	        result.headers.add(section);
+	        result.sections.put(section, adapter);
+	        
+	        return result;
+	    }
+	    
+	    /**
+	     * 
+	     * Add a section to the specified index of the LinkedHashMap.
+	     * @param section
+	     * @param adapter
+	     */
+	    public SeparatedListAdapter<T> insertSection(int i, String section, T adapter) {
+	        result.headers.insert(section, i);
+	        
+	        // lame solution... create a new linkedhashmap and fit it in at the index
+	        Map<String,T> newSections = new LinkedHashMap<String,T>();
+	        
+	        if (i == 0) {
+	            newSections.put(section, adapter);
+	        }
+	        int count = 0;
+	        for (String oldSection : result.sections.keySet()) {
+	            newSections.put(oldSection, result.sections.get(oldSection));
+	            if (i == ++count) {
+	                newSections.put(section, adapter);
+	            }
+	        }
+	        result.sections = newSections;
+	        
+	        return result;
+	    }
+	    
+	    public SeparatedListAdapter<T> build() {
+	        return result;
+	    }
 	}
+	
 }

@@ -15,20 +15,20 @@ import com.nolanlawson.supersaiyan.util.UtilLogger;
  * @author nolan
  *
  */
-public class ExceptionCatchingListView extends ListView {
+public class SuperSaiyanListView extends ListView {
 
-	UtilLogger log = new UtilLogger(ExceptionCatchingListView.class);
+	UtilLogger log = new UtilLogger(SuperSaiyanListView.class);
 	
-	public ExceptionCatchingListView(Context context) {
+	public SuperSaiyanListView(Context context) {
 		super(context);
 	}
 
-	public ExceptionCatchingListView(Context context, AttributeSet attrs,
+	public SuperSaiyanListView(Context context, AttributeSet attrs,
 			int defStyle) {
 		super(context, attrs, defStyle);
 	}
 
-	public ExceptionCatchingListView(Context context, AttributeSet attrs) {
+	public SuperSaiyanListView(Context context, AttributeSet attrs) {
 		super(context, attrs);
 	}
 

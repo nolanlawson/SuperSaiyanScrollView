@@ -32,9 +32,9 @@ import com.nolanlawson.supersaiyan.util.StringUtil;
  * http://nolanlawson.com/2012/03/19/spruce-up-your-listview-by-dividing-it-into-sections/
  * 
  * @author nolan
- *
+ * 
  */
-public class CustomFastScrollView extends FrameLayout 
+public class SuperSaiyanScrollView extends FrameLayout 
         implements OnScrollListener, OnHierarchyChangeListener {
 
 	// how much transparency to use for the fast scroll thumb
@@ -84,20 +84,20 @@ public class CustomFastScrollView extends FrameLayout
 
     private boolean mChangedBounds;
 
-    public CustomFastScrollView(Context context) {
+    public SuperSaiyanScrollView(Context context) {
         super(context);
 
         init(context, null);
     }
 
 
-    public CustomFastScrollView(Context context, AttributeSet attrs) {
+    public SuperSaiyanScrollView(Context context, AttributeSet attrs) {
         super(context, attrs);
 
         init(context, attrs);
     }
 
-    public CustomFastScrollView(Context context, AttributeSet attrs, int defStyle) {
+    public SuperSaiyanScrollView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
 
         init(context, attrs);
@@ -115,14 +115,14 @@ public class CustomFastScrollView extends FrameLayout
         // set all attributes from xml
         if (attrs != null) {
             TypedArray typedArray = context.obtainStyledAttributes(attrs,
-                    R.styleable.CustomFastScrollView);
+                    R.styleable.SuperSaiyanScrollView);
             mOverlayHeight = typedArray.getDimensionPixelSize(
-                    R.styleable.CustomFastScrollView_overlayHeight, 0);
+                    R.styleable.SuperSaiyanScrollView_overlayHeight, 0);
             mOverlayWidth = typedArray.getDimensionPixelSize(
-                    R.styleable.CustomFastScrollView_overlayWidth, 0);
+                    R.styleable.SuperSaiyanScrollView_overlayWidth, 0);
             mOverlayTextSize = typedArray.getDimensionPixelSize(
-                    R.styleable.CustomFastScrollView_overlayTextSize, 0);
-            mOverlayTextColor = typedArray.getColor(R.styleable.CustomFastScrollView_overlayTextColor, 0);
+                    R.styleable.SuperSaiyanScrollView_overlayTextSize, 0);
+            mOverlayTextColor = typedArray.getColor(R.styleable.SuperSaiyanScrollView_overlayTextColor, 0);
             typedArray.recycle();
         }
 
@@ -172,7 +172,7 @@ public class CustomFastScrollView extends FrameLayout
 
         final int y = mThumbY;
         final int viewWidth = getWidth();
-        final CustomFastScrollView.ScrollFade scrollFade = mScrollFade;
+        final SuperSaiyanScrollView.ScrollFade scrollFade = mScrollFade;
 
         int alpha = -1;
         if (scrollFade.mStarted) {

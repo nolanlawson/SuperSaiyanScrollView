@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <declare-styleable name="CustomFastScrollView">
+    <declare-styleable name="SuperSaiyanScrollView">
         <attr name="overlayWidth" format="dimension" />
         <attr name="overlayHeight" format="dimension" />
         <attr name="overlayTextSize" format="dimension" />
