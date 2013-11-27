@@ -1,4 +1,4 @@
-package com.nolanlawson.supersaiyan.widget;
+package com.nolanlawson.supersaiyan;
 
 import java.util.List;
 
