@@ -7,7 +7,7 @@
     android:paddingTop="2dip"
     android:paddingBottom="2dip"
     android:paddingLeft="5dip"
-    android:textSize="@dimen/text_size_list_header"
+    android:textSize="@dimen/ssjn__text_size_list_header"
     android:background="@android:color/darker_gray"
     android:textColor="@android:color/primary_text_dark_nodisable"
     android:textStyle="bold"

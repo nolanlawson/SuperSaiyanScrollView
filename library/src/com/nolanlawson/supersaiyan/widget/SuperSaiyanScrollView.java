@@ -25,6 +25,7 @@ import android.widget.SectionIndexer;
 
 import com.nolanlawson.supersaiyan.R;
 import com.nolanlawson.supersaiyan.util.StringUtil;
+import com.nolanlawson.supersaiyan.util.UtilLogger;
 
 
 /**
@@ -37,6 +38,8 @@ import com.nolanlawson.supersaiyan.util.StringUtil;
 public class SuperSaiyanScrollView extends FrameLayout 
         implements OnScrollListener, OnHierarchyChangeListener {
 
+    private static UtilLogger log = new UtilLogger(SuperSaiyanScrollView.class);
+    
 	// how much transparency to use for the fast scroll thumb
     private static final int ALPHA_MAX = 255;
     
@@ -117,14 +120,21 @@ public class SuperSaiyanScrollView extends FrameLayout
             TypedArray typedArray = context.obtainStyledAttributes(attrs,
                     R.styleable.SuperSaiyanScrollView);
             mOverlayHeight = typedArray.getDimensionPixelSize(
-                    R.styleable.SuperSaiyanScrollView_overlayHeight, 0);
+                    R.styleable.SuperSaiyanScrollView_ssjnOverlayHeight, 
+                    context.getResources().getDimensionPixelSize(R.dimen.ssjn__overlay_height));
             mOverlayWidth = typedArray.getDimensionPixelSize(
-                    R.styleable.SuperSaiyanScrollView_overlayWidth, 0);
+                    R.styleable.SuperSaiyanScrollView_ssjnOverlayWidth, 
+                    context.getResources().getDimensionPixelSize(R.dimen.ssjn__overlay_width_normal));
             mOverlayTextSize = typedArray.getDimensionPixelSize(
-                    R.styleable.SuperSaiyanScrollView_overlayTextSize, 0);
-            mOverlayTextColor = typedArray.getColor(R.styleable.SuperSaiyanScrollView_overlayTextColor, 0);
+                    R.styleable.SuperSaiyanScrollView_ssjnOverlayTextSize, 
+                    context.getResources().getDimensionPixelSize(R.dimen.ssjn__overlay_text_size_normal));
+            mOverlayTextColor = typedArray.getColor(R.styleable.SuperSaiyanScrollView_ssjnOverlayTextColor, 
+                    context.getResources().getColor(R.color.ssjn__emphasis));
             typedArray.recycle();
         }
+        
+        log.d("Initialized with mOverlayHeight: %s, mOverlayWidth: %s, mOverlayTextSize: %s, mOverlayTextColor: %s",
+                mOverlayHeight, mOverlayWidth, mOverlayTextSize, mOverlayTextColor);
 
         // Get both the scrollbar states drawables
         final Resources res = context.getResources();
@@ -197,7 +207,7 @@ public class SuperSaiyanScrollView extends FrameLayout
             float descent = paint.descent();
             final RectF rectF = mOverlayPos;
             
-            if (mSectionText.indexOf('\n') != -1) {
+            if (mSectionText.indexOf('\n') != -1) { // two lines
                 float textY = (int) (rectF.bottom + rectF.top) / 2 + descent - (paint.getTextSize() / 2);
                 for (String substring : StringUtil.split(mSectionText, '\n')) {
                     canvas.drawText(substring, (int) (rectF.left + rectF.right) / 2, textY, paint);

@@ -8,7 +8,7 @@ import java.util.List;
 
 import android.content.Context;
 
-import com.nolanlawson.superaiyan.example1.R;
+import com.nolanlawson.supersaiyan.example1.R;
 
 public class CountryHelper {
     public static List<Country> readInCountries(Context context) {

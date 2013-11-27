@@ -2,10 +2,10 @@
 <resources>
 
     <declare-styleable name="SuperSaiyanScrollView">
-        <attr name="overlayWidth" format="dimension" />
-        <attr name="overlayHeight" format="dimension" />
-        <attr name="overlayTextSize" format="dimension" />
-        <attr name="overlayTextColor" format="color" />
+        <attr name="ssjnOverlayWidth" format="dimension" />
+        <attr name="ssjnOverlayHeight" format="dimension" />
+        <attr name="ssjnOverlayTextSize" format="dimension" />
+        <attr name="ssjnOverlayTextColor" format="color" />
     </declare-styleable>
 
 </resources>

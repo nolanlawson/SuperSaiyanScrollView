@@ -7,13 +7,13 @@ import java.util.List;
 import android.app.ListActivity;
 import android.os.Bundle;
 
-import com.nolanlawson.superaiyan.example1.R;
 import com.nolanlawson.supersaiyan.SectionedListAdapter;
 import com.nolanlawson.supersaiyan.Sectionizer;
 import com.nolanlawson.supersaiyan.example1.data.Country;
 import com.nolanlawson.supersaiyan.example1.data.CountryAdapter;
 import com.nolanlawson.supersaiyan.example1.data.CountryHelper;
 import com.nolanlawson.supersaiyan.example1.data.CountrySorting;
+import com.nolanlawson.supersaiyan.widget.SuperSaiyanScrollView;
 
 public class MainActivity extends ListActivity {
 
@@ -44,9 +44,12 @@ public class MainActivity extends ListActivity {
                         return left.getName().compareTo(right.getName());
                     }
                 })
-                .setShowSectionOverlays(false)
                 .build();
         
         setListAdapter(sectionedAdapter);
+        
+        sectionedAdapter.notifyDataSetChanged();
+        ((SuperSaiyanScrollView)findViewById(R.id.scroll)).listItemsChanged();
+        
     }
 }

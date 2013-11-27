@@ -8,5 +8,5 @@
     android:paddingBottom="2dip"
     android:paddingLeft="5dip"
     style="?android:attr/listSeparatorTextViewStyle"
-    android:textSize="@dimen/text_size_list_header"
+    android:textSize="@dimen/ssjn__text_size_list_header"
 />

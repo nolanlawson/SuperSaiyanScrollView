@@ -6,7 +6,6 @@ import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.TreeMap;
 
 import android.content.Context;
@@ -312,69 +311,75 @@ public class SectionedListAdapter< T extends BaseAdapter> extends BaseAdapter im
     private SectionIndexer createSectionIndexer() {
 
         if (!showSectionOverlays) {
-            return createEmptySectionIndexer();
+            return EMPTY_SECTION_INDEXER;
         }
 
-        List<CharSequence> sectionNames = new ArrayList<CharSequence>();
-        final List<Integer> sectionsToPositions = new ArrayList<Integer>();
-        final List<Integer> positionsToSections = new ArrayList<Integer>();
-
-        int runningCount = 0;
-        for (Entry<CharSequence, List<Integer>> entry : headersToSections.entrySet()) {
-            CharSequence section = entry.getKey();
-            List<Integer> elementIndexes = entry.getValue();
-
-            sectionNames.add(section);
-            sectionsToPositions.add(runningCount);
-
-            int size = elementIndexes.size() + 1;
-            for (int i = 0; i < size; i++) {
-                positionsToSections.add(sectionNames.size() - 1);
+        int[] sectionsToPositions = new int[headersToSections.size()];
+        int[] positionsToSections = new int[absoluteIndexToRelativeIndex.length];
+        
+        int lastHeader = -1;
+        for (int i = 0; i < absoluteIndexToRelativeIndex.length; i++) {
+            boolean isHeader = absoluteIndexToIsHeader[i];
+            
+            if (isHeader) {
+                lastHeader = absoluteIndexToRelativeIndex[i];
+                sectionsToPositions[lastHeader] = i;
             }
-            runningCount += size;
+            positionsToSections[i] = lastHeader;
+        }
+        
+        Object[] sectionNamesArray = headersToSections.keySet().toArray();
+
+        return new BasicSectionIndexer(sectionNamesArray, sectionsToPositions, positionsToSections);
+    }
+    
+    private static class BasicSectionIndexer implements SectionIndexer {
+
+        private int[] sectionsToPositions;
+        private int[] positionsToSections;
+        private Object[] sections;
+        
+        private BasicSectionIndexer(Object[] sections, int[] sectionsToPositions, int[] positionsToSections) {
+            this.sectionsToPositions = sectionsToPositions;
+            this.positionsToSections = positionsToSections;
+            this.sections = sections;
         }
 
-        final Object[] sectionNamesArray = sectionNames.toArray();
+        @Override
+        public Object[] getSections() {
+            return sections;
+        }
 
-        return new SectionIndexer() {
+        @Override
+        public int getSectionForPosition(int position) {
+            return positionsToSections[position];
+        }
 
-            @Override
-            public Object[] getSections() {
-                return sectionNamesArray;
-            }
-
-            @Override
-            public int getSectionForPosition(int position) {
-                return positionsToSections.get(position);
-            }
-
-            @Override
-            public int getPositionForSection(int section) {
-                return sectionsToPositions.get(section);
-            }
-        };
+        @Override
+        public int getPositionForSection(int section) {
+            return sectionsToPositions[section];
+        }
     }
+    
+    private static final SectionIndexer EMPTY_SECTION_INDEXER = new SectionIndexer() {
 
-    private SectionIndexer createEmptySectionIndexer() {
-        final Object[] empty = {};
-        return new SectionIndexer() {
+        private Object[] empty = {};
+        
+        @Override
+        public Object[] getSections() {
+            return empty;
+        }
 
-            @Override
-            public Object[] getSections() {
-                return empty;
-            }
+        @Override
+        public int getSectionForPosition(int position) {
+            return 0;
+        }
 
-            @Override
-            public int getSectionForPosition(int position) {
-                return 0;
-            }
-
-            @Override
-            public int getPositionForSection(int section) {
-                return 0;
-            }
-        };
-    }
+        @Override
+        public int getPositionForSection(int section) {
+            return 0;
+        }
+    };
     
     private static enum Sorting {
         InputOrder,
@@ -384,47 +389,47 @@ public class SectionedListAdapter< T extends BaseAdapter> extends BaseAdapter im
     
     public static class Builder<T extends BaseAdapter> {
 
-        private SectionedListAdapter<T> result;
+        private SectionedListAdapter<T> adapter;
 
         public Builder(Context context) {
-            result = new SectionedListAdapter<T>(context);
+            adapter = new SectionedListAdapter<T>(context);
         }
 
-        public SectionedListAdapter.Builder<T> setShowSectionOverlays(boolean showSectionOverlays) {
-            result.setShowSectionOverlays(showSectionOverlays);
+        public SectionedListAdapter.Builder<T> hideSectionOverlays() {
+            adapter.setShowSectionOverlays(false);
             return this;
         }
         
         public SectionedListAdapter.Builder<T> setSubAdapter(T subAdapter) {
-            result.setSubAdapter(subAdapter);
+            adapter.setSubAdapter(subAdapter);
             return this;
         }
         
         public SectionedListAdapter.Builder<T> setSectionizer(Sectionizer<?> sectionizer) {
-            result.setSectionizer(sectionizer);
+            adapter.setSectionizer(sectionizer);
             return this;
         }
         
         public SectionedListAdapter.Builder<T> sortKeys() {
-            result.keySorting = Sorting.Natural;
+            adapter.keySorting = Sorting.Natural;
             return this;
         }
         public SectionedListAdapter.Builder<T> sortValues() {
-            result.valueSorting = Sorting.Natural;
+            adapter.valueSorting = Sorting.Natural;
             return this;
         }
         public SectionedListAdapter.Builder<T> sortKeys(Comparator<? super CharSequence> keyComparator) {
-            result.keyComparator = keyComparator;
+            adapter.keyComparator = keyComparator;
             return this;
         }
         public SectionedListAdapter.Builder<T> sortValues(Comparator<?> valueComparator) {
-            result.valueComparator = valueComparator;
+            adapter.valueComparator = valueComparator;
             return this;
         }
         
         public SectionedListAdapter<T> build() {
-            result.refresh();
-            return result;
+            adapter.refresh();
+            return adapter;
         }
     }
 }
