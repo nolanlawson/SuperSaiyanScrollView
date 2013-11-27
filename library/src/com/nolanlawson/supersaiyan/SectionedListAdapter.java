@@ -47,8 +47,6 @@ public class SectionedListAdapter< T extends BaseAdapter> extends BaseAdapter im
     private Sectionizer sectionizer;
     private SectionIndexer sectionIndexer;
     
-    
-
     /**
      * Create a new separated list adapter, i.e. an adapter with a title and a
      * body for each section.
@@ -59,18 +57,24 @@ public class SectionedListAdapter< T extends BaseAdapter> extends BaseAdapter im
         this.headers = new TypeCheckingArrayAdapter<CharSequence>(context, R.layout.list_header);
     }
     
-    private void setSubAdapter(T subAdapter) {
-        this.subAdapter = subAdapter;
-    }
+    /**
+     * Getters and setters
+     * @return
+     */
     
-    private void setSectionizer(Sectionizer<?> sectionizer) {
-        this.sectionizer = sectionizer;
-    }
-    
+    /**
+     * True if we're showing the section overlays.
+     * @return
+     */
     public boolean isShowSectionOverlays() {
         return showSectionOverlays;
     }
-
+    
+    /**
+     * If false, then we won't show the rectangular section overlays.  True by default.
+     * 
+     * @param showSectionOverlays
+     */
     public void setShowSectionOverlays(boolean showSectionOverlays) {
         this.showSectionOverlays = showSectionOverlays;
     }
@@ -79,16 +83,67 @@ public class SectionedListAdapter< T extends BaseAdapter> extends BaseAdapter im
         return subAdapter;
     }
 
-    public SectionIndexer getSectionIndexer() {
-        return sectionIndexer;
-    }
-
-    public void setSectionIndexer(SectionIndexer sectionIndexer) {
-        this.sectionIndexer = sectionIndexer;
-    }
-
     public Sectionizer<?> getSectionizer() {
         return sectionizer;
+    }
+
+    public Sorting getKeySorting() {
+        return keySorting;
+    }
+
+    /**
+     * Set the key sorting associated with this SectionedListAdapter.  If you use Explicit, we assume you're
+     * also calling setKeyComparator().
+     * @param keySorting
+     */
+    public void setKeySorting(Sorting keySorting) {
+        this.keySorting = keySorting;
+    }
+
+    public Sorting getValueSorting() {
+        return valueSorting;
+    }
+
+    /**
+     * Set the value sorting associated with this SectionedListAdapter.  If you use Explicit, we assume you're
+     * also calling setKeyComparator().  If you use Natural, we assume that the values implement Comparable.
+     * 
+     * @param valueSorting
+     */
+    public void setValueSorting(Sorting valueSorting) {
+        this.valueSorting = valueSorting;
+    }
+
+    public Comparator<? super CharSequence> getKeyComparator() {
+        return keyComparator;
+    }
+
+    /**
+     * Set this if you've previously set setKeySorting(Sorting.Explicit)
+     * @param keyComparator
+     */
+    public void setKeyComparator(Comparator<? super CharSequence> keyComparator) {
+        this.keyComparator = keyComparator;
+    }
+
+    public Comparator<?> getValueComparator() {
+        return valueComparator;
+    }
+    
+    /**
+     * Set this if you've previously set setValueSorting(Sorting.Explicit)
+     * @param keyComparator
+     */
+    public void setValueComparator(Comparator<?> valueComparator) {
+        this.valueComparator = valueComparator;
+    }
+
+    public void setSubAdapter(BaseAdapter subAdapter) {
+        this.subAdapter = subAdapter;
+    }
+
+    public void setSectionizer(Sectionizer<?> sectionizer) {
+        this.sectionizer = sectionizer;
     }
 
     @Override
@@ -381,9 +436,18 @@ public class SectionedListAdapter< T extends BaseAdapter> extends BaseAdapter im
         }
     };
     
-    private static enum Sorting {
+    public static enum Sorting {
+        /**
+         * Uses the same order that elements are added to the SectionedListAdapter.
+         */
         InputOrder,
+        /**
+         * Casts objects to Comparable and compares them that way.
+         */
         Natural,
+        /**
+         * Uses an explicit Comparator function to compare objects.
+         */
         Explicit;
     }
     
@@ -391,42 +455,96 @@ public class SectionedListAdapter< T extends BaseAdapter> extends BaseAdapter im
 
         private SectionedListAdapter<T> adapter;
 
+        /**
+         * Start a new SectionedListAdapter.Builder chain with the given context.
+         * @param context
+         */
         public Builder(Context context) {
             adapter = new SectionedListAdapter<T>(context);
         }
 
+        /**
+         * Hides the section overlays, i.e. the rectangular overlays with the names of the sections.  By 
+         * default, they are always shown.
+         * @return
+         */
         public SectionedListAdapter.Builder<T> hideSectionOverlays() {
             adapter.setShowSectionOverlays(false);
             return this;
         }
         
+        /**
+         * Set the subAdapter associated with the SectionedListAdapter, i.e. the adapter to use for all the list
+         * items that aren't section headers (i.e. the section content).
+         * 
+         * @param subAdapter
+         * @return
+         */
         public SectionedListAdapter.Builder<T> setSubAdapter(T subAdapter) {
             adapter.setSubAdapter(subAdapter);
             return this;
         }
         
+        /**
+         * Set the function that will be called when we need to figure out the section for a given list item.
+         * 
+         * @see {@link com.nolanlawson.supersaiyan.Sectionizers} for some commonly-used sectionizers
+         * @param sectionizer
+         * @return
+         */
         public SectionedListAdapter.Builder<T> setSectionizer(Sectionizer<?> sectionizer) {
             adapter.setSectionizer(sectionizer);
             return this;
         }
         
+        /**
+         * Sort the keys, i.e. sort the section titles by their string values.
+         * @return
+         */
         public SectionedListAdapter.Builder<T> sortKeys() {
             adapter.keySorting = Sorting.Natural;
             return this;
         }
+        
+        /**
+         * Sort the values, i.e. sort the contents of each section.  This assumes that the objects in your
+         * subAdapter implement Comparable (if not, we'll throw an exception).
+         * @return
+         */
         public SectionedListAdapter.Builder<T> sortValues() {
             adapter.valueSorting = Sorting.Natural;
             return this;
         }
+        
+        /**
+         * Sort the keys, i.e. the section titles, using the given comparator.
+         * 
+         * @see {@link java.lang.String.CASE_INSENSITIVE_ORDER} if you want case-insensitive ordering
+         * @param keyComparator
+         * @return
+         */
         public SectionedListAdapter.Builder<T> sortKeys(Comparator<? super CharSequence> keyComparator) {
             adapter.keyComparator = keyComparator;
             return this;
         }
+        
+        /**
+         * Sort the values, i.e. the contents of each section, using the given comparator.  Assumes that the objects
+         * in your subAdapter really do correspond to the type used in the Comparator, else a ClassCastException
+         * will be thrown.
+         * 
+         * @param valueComparator
+         * @return
+         */
         public SectionedListAdapter.Builder<T> sortValues(Comparator<?> valueComparator) {
             adapter.valueComparator = valueComparator;
             return this;
         }
         
+        /**
+         * End the build chain and return the built SectionedListAdapter.
+         * @return
+         */
         public SectionedListAdapter<T> build() {
             adapter.refresh();
             return adapter;
