@@ -90,6 +90,14 @@ public class SuperSaiyanScrollView extends FrameLayout
 
     private boolean shouldRedrawThumb;
 
+    private int mLastW;
+
+    private int mLastH;
+
+    private int mLastOldw;
+
+    private int mLastOldh;
+
     public SuperSaiyanScrollView(Context context) {
         super(context);
 
@@ -139,8 +147,8 @@ public class SuperSaiyanScrollView extends FrameLayout
             if (schemeIndex != -1) {
                 // use the built-in size schemes
                 OverlaySizeScheme scheme = OverlaySizeScheme.values()[schemeIndex];
-                setOverlaySizeScheme(scheme);
-                
+                mOverlayTextSize = getContext().getResources().getDimensionPixelSize(scheme.getTextSize());
+                mOverlayWidth = getContext().getResources().getDimensionPixelSize(scheme.getWidth());
             }
             
             typedArray.recycle();
@@ -246,14 +254,24 @@ public class SuperSaiyanScrollView extends FrameLayout
         if (mCurrentThumb != null) {
             mCurrentThumb.setBounds(w - mThumbW, 0, w, mThumbH);
         }
+        
+        updateOverlaySize(w, h, oldw, oldh);
+        mLastW = w;
+        mLastH = h;
+        mLastOldw = oldw;
+        mLastOldh = oldh;
+    }
+
+    private void updateOverlaySize(int w, int h, int oldw, int oldh) {
         final RectF pos = mOverlayPos;
         pos.left = (w - mOverlayWidth) / 2;
         pos.right = pos.left + mOverlayWidth;
         pos.top = h / 10; // 10% from top
         pos.bottom = pos.top + mOverlayHeight;
         mOverlayDrawable.setBounds((int) pos.left, (int) pos.top,
-                (int) pos.right, (int) pos.bottom);
+                (int) pos.right, (int) pos.bottom);        
     }
+
 
     public void onScrollStateChanged(AbsListView view, int scrollState) {
         if (scrollState != AbsListView.OnScrollListener.SCROLL_STATE_IDLE) {
@@ -519,6 +537,7 @@ public class SuperSaiyanScrollView extends FrameLayout
 
     public void setOverlayWidth(int overlayWidth) {
         mOverlayWidth = overlayWidth;
+        updateOverlaySize(mLastW, mLastH, mLastOldw, mLastOldh);
     }
 
 
@@ -527,6 +546,7 @@ public class SuperSaiyanScrollView extends FrameLayout
         if (mPaint != null) {
             mPaint.setTextSize(mOverlayTextSize);
         }
+        updateOverlaySize(mLastW, mLastH, mLastOldw, mLastOldh);
     }
     
     /**
@@ -535,9 +555,11 @@ public class SuperSaiyanScrollView extends FrameLayout
      * @param scheme
      */
     public void setOverlaySizeScheme(OverlaySizeScheme scheme) {
-        setOverlayTextSize(getContext().getResources().getDimensionPixelSize(scheme.getTextSize()));
-        setOverlayWidth(getContext().getResources().getDimensionPixelSize(scheme.getWidth()));
+        mOverlayTextSize = getContext().getResources().getDimensionPixelSize(scheme.getTextSize());
+        if (mPaint != null) {
+            mPaint.setTextSize(mOverlayTextSize);
+        }
+        mOverlayWidth = getContext().getResources().getDimensionPixelSize(scheme.getWidth());
+        updateOverlaySize(mLastW, mLastH, mLastOldw, mLastOldh);
     }
-	
-	
 }

@@ -16,7 +16,9 @@ import com.example.example2.data.PocketMonster;
 import com.example.example2.data.PocketMonsterAdapter;
 import com.example.example2.data.PocketMonsterHelper;
 import com.nolanlawson.supersaiyan.MultipleSectionizer;
+import com.nolanlawson.supersaiyan.OverlaySizeScheme;
 import com.nolanlawson.supersaiyan.SectionedListAdapter;
+import com.nolanlawson.supersaiyan.SectionedListAdapter.Sorting;
 import com.nolanlawson.supersaiyan.Sectionizer;
 import com.nolanlawson.supersaiyan.Sectionizers;
 import com.nolanlawson.supersaiyan.widget.SuperSaiyanScrollView;
@@ -54,7 +56,9 @@ public class MainActivity extends ListActivity {
     
     private void sortByAz() {
         adapter.setSectionizer(Sectionizers.UsingFirstLetterOfToString);
+        adapter.setKeySorting(Sorting.Natural);
         adapter.notifyDataSetChanged();
+        scrollView.setOverlaySizeScheme(OverlaySizeScheme.Small);
         scrollView.refresh();
     }
     
@@ -72,7 +76,9 @@ public class MainActivity extends ListActivity {
                 }
             }
         });
+        adapter.setKeySorting(Sorting.Natural);
         adapter.notifyDataSetChanged();
+        scrollView.setOverlaySizeScheme(OverlaySizeScheme.Normal);
         scrollView.refresh();
     }
     
@@ -86,21 +92,23 @@ public class MainActivity extends ListActivity {
                 // see http://bulbapedia.bulbagarden.net/wiki/List_of_Pok%C3%A9mon_by_National_Pok%C3%A9dex_number
                 // Kanto region will appear first, followed by those from Johto, Hoenn, Sinnoh, Unova, and Kalos
                 if (id <= 151) {
-                    return "Kanto";
+                    return "Kanto (Generation 1)";
                 } else if (id <= 251) {
-                    return "Johto";
+                    return "Johto (Generation 2)";
                 } else if (id <= 386) {
-                    return "Hoenn";
+                    return "Hoenn (Generation 3)";
                 } else if (id <= 493) {
-                    return "Sinnoh";
+                    return "Sinnoh (Generation 4)";
                 } else if (id <= 649) {
-                    return "Unova";
+                    return "Unova (Generation 5)";
                 } else {
-                    return "Kalos";
+                    return "Kalos (Generation 6)";
                 }
             }
         });
+        adapter.setKeySorting(Sorting.InputOrder); // uses the nat'l pokedex order, since that's the original order
         adapter.notifyDataSetChanged();
+        scrollView.setOverlaySizeScheme(OverlaySizeScheme.Large);
         scrollView.refresh();
     }
 
