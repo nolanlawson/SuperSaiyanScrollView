@@ -139,8 +139,7 @@ public class SuperSaiyanScrollView extends FrameLayout
             if (schemeIndex != -1) {
                 // use the built-in size schemes
                 OverlaySizeScheme scheme = OverlaySizeScheme.values()[schemeIndex];
-                mOverlayTextSize = context.getResources().getDimensionPixelSize(scheme.getTextSize());
-                mOverlayWidth = context.getResources().getDimensionPixelSize(scheme.getWidth());
+                setOverlaySizeScheme(scheme);
                 
             }
             
@@ -528,7 +527,19 @@ public class SuperSaiyanScrollView extends FrameLayout
 
     public void setOverlayTextSize(float overlayTextSize) {
         mOverlayTextSize = overlayTextSize;
-        mPaint.setTextSize(mOverlayTextSize);
+        if (mPaint != null) {
+            mPaint.setTextSize(mOverlayTextSize);
+        }
+    }
+    
+    /**
+     * Set a size scheme for the overlay that's shown.  This will modify both the width of the overlay window
+     * and the text size.
+     * @param scheme
+     */
+    public void setOverlaySizeScheme(OverlaySizeScheme scheme) {
+        setOverlayTextSize(getContext().getResources().getDimensionPixelSize(scheme.getTextSize()));
+        setOverlayWidth(getContext().getResources().getDimensionPixelSize(scheme.getWidth()));
     }
 	
 	

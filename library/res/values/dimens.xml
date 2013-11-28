@@ -3,19 +3,15 @@
 	
     <dimen name="ssjn__overlay_height">75dp</dimen>
     
-    <!--  use for single letter sections -->
     <dimen name="ssjn__overlay_width_small">75dp</dimen>
     <dimen name="ssjn__overlay_text_size_small">26dp</dimen>
     
-    <!--  use for sections with up to approximately 10 letters -->
 	<dimen name="ssjn__overlay_width_normal">240dp</dimen>
 	<dimen name="ssjn__overlay_text_size_normal">24dp</dimen>
 	
-	<!--  use for sections with a bit more text -->
 	<dimen name="ssjn__overlay_width_large">325dp</dimen>
     <dimen name="ssjn__overlay_text_size_large">24dp</dimen>	
     
-    <!--  use for sections with very long text -->
     <dimen name="ssjn__overlay_width_xlarge">325dp</dimen>
     <dimen name="ssjn__overlay_text_size_xlarge">15dp</dimen>  
     

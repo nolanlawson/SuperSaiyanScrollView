@@ -21,7 +21,7 @@ public class PocketMonsterAdapter extends ArrayAdapter<PocketMonster> {
     
     private static final int LAYOUT_ID = R.layout.pocket_monster_item;
 
-    private static final Map<String, Integer> typesToBackgroundColors = new HashMap<String, Integer>();
+    private Map<String, GradientDrawable> typesToBackgrounds = new HashMap<String, GradientDrawable>();
     
     public PocketMonsterAdapter(Context context, List<PocketMonster> objects) {
         super(context, LAYOUT_ID, objects);
@@ -61,23 +61,18 @@ public class PocketMonsterAdapter extends ArrayAdapter<PocketMonster> {
     @SuppressWarnings("deprecation")
     private void styleType(TextView textView, String type) {
         
-        if (textView.getTag() == null) {
-            // background not mutated yet; let's mutate it now
-            textView.setBackgroundDrawable(textView.getBackground().mutate());
-            textView.setTag(Boolean.TRUE);
-        }
-        
         Resources resources = getContext().getResources();
         // choose a nice color for this type based on what it is
-        GradientDrawable background = (GradientDrawable) textView.getBackground();
-        Integer colorId = typesToBackgroundColors.get(type);
-        if (colorId == null) {
+        
+        GradientDrawable background = typesToBackgrounds.get(type);
+        if (background == null) {
             String colorName = "type_color_" + type.toLowerCase(Locale.US);
-            colorId = resources.getIdentifier(colorName, "color", getContext().getPackageName());
-            typesToBackgroundColors.put(type, colorId);
+            int colorId = resources.getIdentifier(colorName, "color", getContext().getPackageName());
+            background = (GradientDrawable)resources.getDrawable(R.drawable.type_background).mutate();
+            background.setColor(resources.getColor(colorId));
+            typesToBackgrounds.put(type, background);
         }
-        background.setColor(resources.getColor(colorId));
-                
+        
         textView.setBackgroundDrawable(background);
     }
 }
