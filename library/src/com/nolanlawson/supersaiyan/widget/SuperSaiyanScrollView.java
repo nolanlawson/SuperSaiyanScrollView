@@ -23,6 +23,7 @@ import android.widget.HeaderViewListAdapter;
 import android.widget.ListView;
 import android.widget.SectionIndexer;
 
+import com.nolanlawson.supersaiyan.OverlaySizeScheme;
 import com.nolanlawson.supersaiyan.R;
 import com.nolanlawson.supersaiyan.util.StringUtil;
 import com.nolanlawson.supersaiyan.util.UtilLogger;
@@ -122,16 +123,27 @@ public class SuperSaiyanScrollView extends FrameLayout
             TypedArray typedArray = context.obtainStyledAttributes(attrs,
                     R.styleable.SuperSaiyanScrollView);
             mOverlayHeight = typedArray.getDimensionPixelSize(
-                    R.styleable.SuperSaiyanScrollView_ssjnOverlayHeight, 
+                    R.styleable.SuperSaiyanScrollView_ssjn_overlayHeight, 
                     context.getResources().getDimensionPixelSize(R.dimen.ssjn__overlay_height));
             mOverlayWidth = typedArray.getDimensionPixelSize(
-                    R.styleable.SuperSaiyanScrollView_ssjnOverlayWidth, 
+                    R.styleable.SuperSaiyanScrollView_ssjn_overlayWidth, 
                     context.getResources().getDimensionPixelSize(R.dimen.ssjn__overlay_width_normal));
             mOverlayTextSize = typedArray.getDimensionPixelSize(
-                    R.styleable.SuperSaiyanScrollView_ssjnOverlayTextSize, 
+                    R.styleable.SuperSaiyanScrollView_ssjn_overlayTextSize, 
                     context.getResources().getDimensionPixelSize(R.dimen.ssjn__overlay_text_size_normal));
-            mOverlayTextColor = typedArray.getColor(R.styleable.SuperSaiyanScrollView_ssjnOverlayTextColor, 
+            mOverlayTextColor = typedArray.getColor(R.styleable.SuperSaiyanScrollView_ssjn_overlayTextColor, 
                     context.getResources().getColor(R.color.ssjn__emphasis));
+            
+            int schemeIndex = typedArray.getInt(R.styleable.SuperSaiyanScrollView_ssjn_overlaySizeScheme, -1);
+            
+            if (schemeIndex != -1) {
+                // use the built-in size schemes
+                OverlaySizeScheme scheme = OverlaySizeScheme.values()[schemeIndex];
+                mOverlayTextSize = context.getResources().getDimensionPixelSize(scheme.getTextSize());
+                mOverlayWidth = context.getResources().getDimensionPixelSize(scheme.getWidth());
+                
+            }
+            
             typedArray.recycle();
         }
         

@@ -13,10 +13,7 @@
             android:id="@+id/scroll"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            myapp:ssjnOverlayHeight="@dimen/ssjn__overlay_height"
-            myapp:ssjnOverlayTextColor="@color/ssjn__emphasis"
-            myapp:ssjnOverlayTextSize="@dimen/ssjn__overlay_text_size_normal"
-            myapp:ssjnOverlayWidth="@dimen/ssjn__overlay_width_normal" >
+            myapp:ssjn_overlaySizeScheme="normal">
 
             <com.nolanlawson.supersaiyan.widget.SuperSaiyanListView
                 android:id="@android:id/list"
