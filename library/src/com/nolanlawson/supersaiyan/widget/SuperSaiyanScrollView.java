@@ -513,10 +513,7 @@ public class SuperSaiyanScrollView extends FrameLayout
     /**
      * Call this whenever the data set changes, in order to update the overlay drawable.
      */
-	public void notifyDataSetChanged() {
-	    if (mListAdapter != null) {
-	        mListAdapter.notifyDataSetChanged();
-	    }
+	public void refresh() {
 		getSections();
 	}
 

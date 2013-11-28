@@ -1,16 +1,23 @@
 package com.example.example2;
 
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
 import android.app.ListActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.Menu;
+import android.view.MenuItem;
 
 import com.example.example2.data.PocketMonster;
 import com.example.example2.data.PocketMonsterAdapter;
 import com.example.example2.data.PocketMonsterHelper;
+import com.nolanlawson.supersaiyan.MultipleSectionizer;
 import com.nolanlawson.supersaiyan.SectionedListAdapter;
+import com.nolanlawson.supersaiyan.Sectionizer;
 import com.nolanlawson.supersaiyan.Sectionizers;
 import com.nolanlawson.supersaiyan.widget.SuperSaiyanScrollView;
 
@@ -43,7 +50,58 @@ public class MainActivity extends ListActivity {
                 .build();
         
         setListAdapter(adapter);
-        
+    }
+    
+    private void sortByAz() {
+        adapter.setSectionizer(Sectionizers.UsingFirstLetterOfToString);
+        adapter.notifyDataSetChanged();
+        scrollView.refresh();
+    }
+    
+    private void sortByType() {
+        adapter.setMultipleSectionizer(new MultipleSectionizer<PocketMonster>() {
+
+            @Override
+            public Collection<? extends CharSequence> toSections(PocketMonster input) {
+                if (!TextUtils.isEmpty(input.getType2())) {
+                    // two types
+                    return Arrays.asList(input.getType1(), input.getType2());
+                } else {
+                    // one type
+                    return Collections.singleton(input.getType1());
+                }
+            }
+        });
+        adapter.notifyDataSetChanged();
+        scrollView.refresh();
+    }
+    
+    private void sortByRegion() {
+        adapter.setSectionizer(new Sectionizer<PocketMonster>() {
+
+            @Override
+            public CharSequence toSection(PocketMonster input) {
+                int id = input.getNationalDexNumber();
+                
+                // see http://bulbapedia.bulbagarden.net/wiki/List_of_Pok%C3%A9mon_by_National_Pok%C3%A9dex_number
+                // Kanto region will appear first, followed by those from Johto, Hoenn, Sinnoh, Unova, and Kalos
+                if (id <= 151) {
+                    return "Kanto";
+                } else if (id <= 251) {
+                    return "Johto";
+                } else if (id <= 386) {
+                    return "Hoenn";
+                } else if (id <= 493) {
+                    return "Sinnoh";
+                } else if (id <= 649) {
+                    return "Unova";
+                } else {
+                    return "Kalos";
+                }
+            }
+        });
+        adapter.notifyDataSetChanged();
+        scrollView.refresh();
     }
 
     @Override
@@ -52,5 +110,25 @@ public class MainActivity extends ListActivity {
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        
+        switch (item.getItemId()) {
+            case R.id.action_sort_by_az:
+                sortByAz();
+                return true;
+            case R.id.action_sort_by_region:
+                sortByRegion();
+                return true;
+            case R.id.action_sort_by_type:
+                sortByType();
+                return true;
+        }
+        
+        return false;
+    }
+    
+    
 
 }

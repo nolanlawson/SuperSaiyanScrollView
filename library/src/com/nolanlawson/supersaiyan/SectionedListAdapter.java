@@ -48,7 +48,6 @@ public class SectionedListAdapter< T extends BaseAdapter> extends BaseAdapter im
     private Sectionizer sectionizer;
     @SuppressWarnings("rawtypes")
     private MultipleSectionizer multipleSectionizer;
-    private boolean useMultipleSections;
     private SectionIndexer sectionIndexer;
     
     /**
@@ -148,18 +147,11 @@ public class SectionedListAdapter< T extends BaseAdapter> extends BaseAdapter im
 
     public void setSectionizer(Sectionizer<?> sectionizer) {
         this.sectionizer = sectionizer;
+        this.multipleSectionizer = null;
     }
     
     public MultipleSectionizer<?> getMultipleSectionizer() {
         return multipleSectionizer;
-    }
-
-    public boolean isUseMultipleSections() {
-        return useMultipleSections;
-    }
-
-    public void setUseMultipleSections(boolean useMultipleSections) {
-        this.useMultipleSections = useMultipleSections;
     }
 
     /**
@@ -170,6 +162,7 @@ public class SectionedListAdapter< T extends BaseAdapter> extends BaseAdapter im
      */
     public void setMultipleSectionizer(MultipleSectionizer<?> multipleSectionizer) {
         this.multipleSectionizer = multipleSectionizer;
+        this.sectionizer = null;
     }
 
     @Override
@@ -183,10 +176,9 @@ public class SectionedListAdapter< T extends BaseAdapter> extends BaseAdapter im
         // to throw some informative exceptions
         checkNotNull(subAdapter, "subAdapter cannot be null! Did you remember to call setSubAdapter()?");
         
-        if (useMultipleSections) {
-            checkNotNull(multipleSectionizer, "multipleSectionizer cannot be null if you set useMultipleSections!");
-        } else {
-            checkNotNull(sectionizer, "sectionizer cannot be null! Did you remember to call setSectionizer()?");
+        if (sectionizer == null && multipleSectionizer == null) {
+            checkNotNull(sectionizer, 
+                    "sectionizer cannot be null! Did you remember to call setSectionizer() or setMultipleSectionizer()?");
         }
         refreshSections();
         sectionIndexer = createSectionIndexer();
@@ -294,19 +286,26 @@ public class SectionedListAdapter< T extends BaseAdapter> extends BaseAdapter im
         
         Map<CharSequence, List<Integer>> sections = createSectionMap();
         
+        
+        int numDuplicates = 0;
         for (int i = 0; i < subAdapter.getCount(); i++) {
             Object element = subAdapter.getItem(i);
             
             Collection<CharSequence> sectionNames;
             
-            if (isUseMultipleSections()) { // use the multiple sectionizer
+            if (multipleSectionizer != null) { // use the multiple sectionizer
                 sectionNames = checkNotNull(multipleSectionizer.toSections(element), 
                         "multipleSectionizer.toSections() cannot return null!");
+                if (sectionNames.isEmpty()) {
+                    throw new IllegalStateException("multipleSectionizer.toSections() cannot return empty!");
+                }
             } else { // user the regular sectionizer
                 sectionNames = Collections.singleton(checkNotNull(sectionizer.toSection(element),
                         "sectionizer.toSection() cannot return null!"
                         ));
             }
+            
+            numDuplicates += sectionNames.size() - 1;
             
             for (CharSequence sectionName : sectionNames) {
             
@@ -325,7 +324,7 @@ public class SectionedListAdapter< T extends BaseAdapter> extends BaseAdapter im
         sortValuesIfNecessary(sections);
         
         // build up a list of all elements, including section titles
-        int totalLength = sections.size() + subAdapter.getCount();
+        int totalLength = sections.size() + subAdapter.getCount() + numDuplicates;
         absoluteIndexToRelativeIndex = new int[totalLength];
         absoluteIndexToIsHeader = new boolean[totalLength];
         headersToSections = sections;

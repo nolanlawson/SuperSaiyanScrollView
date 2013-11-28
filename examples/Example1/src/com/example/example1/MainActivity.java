@@ -56,7 +56,8 @@ public class MainActivity extends ListActivity {
     
     private void sortAz() {
         sectionedAdapter.setSectionizer(Sectionizers.UsingFirstLetterOfToString);
-        superSaiyanScrollView.notifyDataSetChanged();
+        sectionedAdapter.notifyDataSetChanged();
+        superSaiyanScrollView.refresh();
     }
     
     private void sortByContinent() {
@@ -67,7 +68,8 @@ public class MainActivity extends ListActivity {
                         return input.getContinent();
                     }
                 });
-        superSaiyanScrollView.notifyDataSetChanged();
+        sectionedAdapter.notifyDataSetChanged();
+        superSaiyanScrollView.refresh();
     }
 
     @Override

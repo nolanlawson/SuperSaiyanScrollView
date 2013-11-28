@@ -15,6 +15,6 @@ public interface MultipleSectionizer<E> {
      * @param input
      * @return
      */
-    public Collection<CharSequence> toSections(E input);
+    public Collection<? extends CharSequence> toSections(E input);
     
 }
