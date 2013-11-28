@@ -1,5 +1,4 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:myapp="http://schemas.android.com/apk/res/com.example.example1"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -9,14 +8,11 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".MainActivity" >
 
-        <com.nolanlawson.supersaiyan.widget.SuperSaiyanScrollView
+       <com.nolanlawson.supersaiyan.widget.SuperSaiyanScrollView
             android:id="@+id/scroll"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            myapp:ssjnOverlayHeight="@dimen/ssjn__overlay_height"
-            myapp:ssjnOverlayTextColor="@color/ssjn__emphasis"
-            myapp:ssjnOverlayTextSize="@dimen/ssjn__overlay_text_size_normal"
-            myapp:ssjnOverlayWidth="@dimen/ssjn__overlay_width_normal" >
+            >
 
             <com.nolanlawson.supersaiyan.widget.SuperSaiyanListView
                 android:id="@android:id/list"
@@ -25,7 +21,7 @@
                 android:drawSelectorOnTop="false"
                 android:scrollbars="none"
                 />
-
+            
         </com.nolanlawson.supersaiyan.widget.SuperSaiyanScrollView>
 
 </RelativeLayout>

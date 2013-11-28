@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--  Taken from Bulbapedia.  Great color choices! -->
+    <color name="type_color_normal">#a8a878</color>
+	<color name="type_color_fire">#f08030</color>
+	<color name="type_color_fighting">#c03028</color>
+	<color name="type_color_water">#6890f0</color>
+	<color name="type_color_flying">#a890f0</color>
+	<color name="type_color_grass">#78c850</color>
+	<color name="type_color_poison">#a040a0</color>
+	<color name="type_color_psychic">#f85888</color>
+	<color name="type_color_electric">#f8d030</color>
+	<color name="type_color_ground">#e0c068</color>
+	<color name="type_color_rock">#b8a038</color>
+	<color name="type_color_ice">#98d8d8</color>
+	<color name="type_color_bug">#a8b820</color>
+	<color name="type_color_dragon">#7038f8</color>
+	<color name="type_color_ghost">#705898</color>
+	<color name="type_color_dark">#705848</color>
+	<color name="type_color_steel">#b8b8d0</color>
+	<color name="type_color_fairy">#ee99ac</color>
+	<color name="type_color_unknown">#68a090</color>
+	<color name="type_border">#333333</color>
+</resources>

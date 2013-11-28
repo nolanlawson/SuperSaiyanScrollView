@@ -87,6 +87,8 @@ public class SuperSaiyanScrollView extends FrameLayout
 
     private boolean mChangedBounds;
 
+    private boolean shouldRedrawThumb;
+
     public SuperSaiyanScrollView(Context context) {
         super(context);
 
@@ -243,15 +245,19 @@ public class SuperSaiyanScrollView extends FrameLayout
     }
 
     public void onScrollStateChanged(AbsListView view, int scrollState) {
-        /*if (scrollState == AbsListView.OnScrollListener.SCROLL_STATE_IDLE) {
-            mCurrentThumb.setState(STATE_UNPRESSED);
-        }*/
+        if (scrollState != AbsListView.OnScrollListener.SCROLL_STATE_IDLE) {
+            // ensure that the thumb gets redrawn, even if the user is only fling/touch scrolling
+            shouldRedrawThumb = true;
+        }
     }
 
     public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, 
             int totalItemCount) {
         
-        invalidate(); // force a redraw of the thumb
+        if (shouldRedrawThumb) {
+            super.invalidate(); // force a redraw of the thumb
+            shouldRedrawThumb = false;
+        }
         
         if (totalItemCount - visibleItemCount > 0 && !mDragging) {
             mThumbY = ((getHeight() - mThumbH) * firstVisibleItem) / (totalItemCount - visibleItemCount);

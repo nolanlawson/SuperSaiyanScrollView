@@ -1,4 +1,4 @@
-package com.nolanlawson.supersaiyan.example1.data;
+package com.example.example1.data;
 
 /**
  * Country in the world with its host continent.

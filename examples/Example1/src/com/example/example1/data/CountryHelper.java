@@ -1,4 +1,4 @@
-package com.nolanlawson.supersaiyan.example1.data;
+package com.example.example1.data;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -8,7 +8,7 @@ import java.util.List;
 
 import android.content.Context;
 
-import com.nolanlawson.supersaiyan.example1.R;
+import com.example.example1.R;
 
 public class CountryHelper {
     public static List<Country> readInCountries(Context context) {

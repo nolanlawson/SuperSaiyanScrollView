@@ -1,4 +1,4 @@
-package com.nolanlawson.supersaiyan.example1;
+package com.example.example1;
 
 import java.util.Comparator;
 import java.util.List;
@@ -9,12 +9,12 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
+import com.example.example1.data.Country;
+import com.example.example1.data.CountryAdapter;
+import com.example.example1.data.CountryHelper;
 import com.nolanlawson.supersaiyan.SectionedListAdapter;
 import com.nolanlawson.supersaiyan.Sectionizer;
 import com.nolanlawson.supersaiyan.Sectionizers;
-import com.nolanlawson.supersaiyan.example1.data.Country;
-import com.nolanlawson.supersaiyan.example1.data.CountryAdapter;
-import com.nolanlawson.supersaiyan.example1.data.CountryHelper;
 import com.nolanlawson.supersaiyan.widget.SuperSaiyanScrollView;
 
 public class MainActivity extends ListActivity {

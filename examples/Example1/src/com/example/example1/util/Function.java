@@ -1,4 +1,4 @@
-package com.nolanlawson.supersaiyan.example1.util;
+package com.example.example1.util;
 
 /**
  * Simple input/output function for functional programming.

@@ -1,6 +1,9 @@
 package com.nolanlawson.supersaiyan;
 
+import static com.nolanlawson.supersaiyan.util.ExceptionUtil.checkNotNull;
+
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.LinkedHashMap;
@@ -13,8 +16,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.SectionIndexer;
-
-import com.nolanlawson.supersaiyan.util.StringUtil;
 
 /**
  * ListAdapter with headers for each section. Originally taken from Jeff Sharkey:
@@ -45,6 +46,9 @@ public class SectionedListAdapter< T extends BaseAdapter> extends BaseAdapter im
 
     @SuppressWarnings("rawtypes")
     private Sectionizer sectionizer;
+    @SuppressWarnings("rawtypes")
+    private MultipleSectionizer multipleSectionizer;
+    private boolean useMultipleSections;
     private SectionIndexer sectionIndexer;
     
     /**
@@ -145,6 +149,28 @@ public class SectionedListAdapter< T extends BaseAdapter> extends BaseAdapter im
     public void setSectionizer(Sectionizer<?> sectionizer) {
         this.sectionizer = sectionizer;
     }
+    
+    public MultipleSectionizer<?> getMultipleSectionizer() {
+        return multipleSectionizer;
+    }
+
+    public boolean isUseMultipleSections() {
+        return useMultipleSections;
+    }
+
+    public void setUseMultipleSections(boolean useMultipleSections) {
+        this.useMultipleSections = useMultipleSections;
+    }
+
+    /**
+     * Sets the multiple sectionizer, which is used instead of the regular sectionizer, if useMultipleSections
+     * is true.
+     * 
+     * @param multipleSectionizer
+     */
+    public void setMultipleSectionizer(MultipleSectionizer<?> multipleSectionizer) {
+        this.multipleSectionizer = multipleSectionizer;
+    }
 
     @Override
     public void notifyDataSetChanged() {
@@ -155,10 +181,12 @@ public class SectionedListAdapter< T extends BaseAdapter> extends BaseAdapter im
     private void refresh() {
         // this is called when the adapter is first built or its configuration is changed, so it's a good time
         // to throw some informative exceptions
-        if (subAdapter == null) {
-            throw new IllegalStateException("subAdapter cannot be null! Did you remember to call setSubAdapter()?");
-        } else if (sectionizer == null) {
-            throw new IllegalStateException("sectionizer cannot be null! Did you remember to call setSectionizer()?");
+        checkNotNull(subAdapter, "subAdapter cannot be null! Did you remember to call setSubAdapter()?");
+        
+        if (useMultipleSections) {
+            checkNotNull(multipleSectionizer, "multipleSectionizer cannot be null if you set useMultipleSections!");
+        } else {
+            checkNotNull(sectionizer, "sectionizer cannot be null! Did you remember to call setSectionizer()?");
         }
         refreshSections();
         sectionIndexer = createSectionIndexer();
@@ -268,16 +296,29 @@ public class SectionedListAdapter< T extends BaseAdapter> extends BaseAdapter im
         
         for (int i = 0; i < subAdapter.getCount(); i++) {
             Object element = subAdapter.getItem(i);
-            CharSequence section = StringUtil.nullToEmpty(sectionizer.toSection(element));
             
-            List<Integer> existingList = sections.get(section);
+            Collection<CharSequence> sectionNames;
             
-            // multimap logic
-            if (existingList == null) {
-                existingList = new ArrayList<Integer>();
-                sections.put(section, existingList);
+            if (isUseMultipleSections()) { // use the multiple sectionizer
+                sectionNames = checkNotNull(multipleSectionizer.toSections(element), 
+                        "multipleSectionizer.toSections() cannot return null!");
+            } else { // user the regular sectionizer
+                sectionNames = Collections.singleton(checkNotNull(sectionizer.toSection(element),
+                        "sectionizer.toSection() cannot return null!"
+                        ));
             }
-            existingList.add(i);
+            
+            for (CharSequence sectionName : sectionNames) {
+            
+                List<Integer> existingList = sections.get(sectionName);
+                
+                // multimap logic
+                if (existingList == null) {
+                    existingList = new ArrayList<Integer>();
+                    sections.put(sectionName, existingList);
+                }
+                existingList.add(i);
+            }
         }
         
         // if we're sorting values, then sort 'em!
@@ -485,6 +526,17 @@ public class SectionedListAdapter< T extends BaseAdapter> extends BaseAdapter im
             return this;
         }
         
+        /**
+         * Same as setSectionizer(), but allows list items to be listed in multiple sections.
+         * 
+         * @see {@link com.nolanlawson.supersaiyan.Sectionizers} for some commonly-used sectionizers
+         * @param sectionizer
+         * @return
+         */
+        public SectionedListAdapter.Builder<T> setMultipleSectionizer(MultipleSectionizer<?> sectionizer) {
+            adapter.setMultipleSectionizer(sectionizer);
+            return this;
+        }        
         /**
          * Set the function that will be called when we need to figure out the section for a given list item.
          * 
