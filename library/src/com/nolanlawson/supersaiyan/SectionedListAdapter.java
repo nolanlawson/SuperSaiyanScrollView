@@ -343,7 +343,9 @@ public class SectionedListAdapter< T extends BaseAdapter> extends BaseAdapter im
             headerCounter++;
         }
         headers.clear();
-        headers.addAll(sections.keySet());
+        for (CharSequence section : sections.keySet()) {
+            headers.add(section);
+        }
     }
 
     private Map<CharSequence, List<Integer>> createSectionMap() {
