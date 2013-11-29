@@ -8,10 +8,11 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
 
 import com.example.example1.data.Country;
-import com.example.example1.data.CountryAdapter;
 import com.example.example1.data.CountryHelper;
+import com.nolanlawson.supersaiyan.OverlaySizeScheme;
 import com.nolanlawson.supersaiyan.SectionedListAdapter;
 import com.nolanlawson.supersaiyan.Sectionizer;
 import com.nolanlawson.supersaiyan.Sectionizers;
@@ -20,7 +21,7 @@ import com.nolanlawson.supersaiyan.widget.SuperSaiyanScrollView;
 public class MainActivity extends ListActivity {
 
     private SuperSaiyanScrollView superSaiyanScrollView;
-    private SectionedListAdapter<CountryAdapter> sectionedAdapter;
+    private SectionedListAdapter<ArrayAdapter<Country>> sectionedAdapter;
     
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -29,9 +30,10 @@ public class MainActivity extends ListActivity {
         
         List<Country> countries = CountryHelper.readInCountries(this);
         
-        CountryAdapter adapter = new CountryAdapter(this, android.R.layout.simple_spinner_item, countries);
+        ArrayAdapter<Country> adapter = new ArrayAdapter<Country>(
+                this, android.R.layout.simple_spinner_item, countries);
         
-        sectionedAdapter = new SectionedListAdapter.Builder<CountryAdapter>(this)
+        sectionedAdapter = new SectionedListAdapter.Builder<ArrayAdapter<Country>>(this)
                 .setSubAdapter(adapter)
                 .setSectionizer(new Sectionizer<Country>(){
 
@@ -57,6 +59,7 @@ public class MainActivity extends ListActivity {
     private void sortAz() {
         sectionedAdapter.setSectionizer(Sectionizers.UsingFirstLetterOfToString);
         sectionedAdapter.notifyDataSetChanged();
+        superSaiyanScrollView.setOverlaySizeScheme(OverlaySizeScheme.Small);
         superSaiyanScrollView.refresh();
     }
     
@@ -69,6 +72,7 @@ public class MainActivity extends ListActivity {
                     }
                 });
         sectionedAdapter.notifyDataSetChanged();
+        superSaiyanScrollView.setOverlaySizeScheme(OverlaySizeScheme.Normal);
         superSaiyanScrollView.refresh();
     }
 
