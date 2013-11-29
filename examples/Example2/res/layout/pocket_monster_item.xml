@@ -10,46 +10,52 @@
 
     <TextView
         android:id="@+id/unique_id"
-        android:layout_width="wrap_content"
+        android:layout_width="40dp"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
-        android:minWidth="40dp"
         android:text="102B"
+        android:singleLine="true"
+        android:ellipsize="marquee"
         android:textColor="@android:color/secondary_text_light_nodisable"
         />
 
     
     <TextView
         android:id="@+id/type2"
-        android:layout_width="wrap_content"
+        android:layout_width="70dp"
         android:layout_height="wrap_content"
-        android:minWidth="70dp"
         android:gravity="center_horizontal"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
         android:layout_marginLeft="5dp"
+        android:singleLine="true"
+        android:ellipsize="marquee"
         android:textColor="@android:color/primary_text_dark_nodisable"
         android:text="Flying"/>
         
     <TextView
         android:id="@+id/type1"
-        android:layout_width="wrap_content"
+        android:layout_width="70dp"
         android:layout_height="wrap_content"
-        android:minWidth="70dp"
         android:gravity="center_horizontal"
         android:layout_toLeftOf="@+id/type2"
         android:layout_centerVertical="true"
+        android:singleLine="true"
+        android:ellipsize="marquee"
         android:textColor="@android:color/primary_text_dark_nodisable"
         android:text="Fire"/>
     
     <TextView
         android:id="@+id/name"
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_toRightOf="@+id/unique_id"
+        android:layout_toLeftOf="@+id/type1"
         android:layout_centerVertical="true"
         android:textSize="16sp"
+        android:singleLine="true"
+        android:ellipsize="marquee"
         android:text="Charizard"/>    
         
 </RelativeLayout>
