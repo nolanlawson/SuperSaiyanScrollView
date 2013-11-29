@@ -11,6 +11,9 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 
 import com.example.example2.data.PocketMonster;
 import com.example.example2.data.PocketMonsterAdapter;
@@ -23,10 +26,11 @@ import com.nolanlawson.supersaiyan.Sectionizer;
 import com.nolanlawson.supersaiyan.Sectionizers;
 import com.nolanlawson.supersaiyan.widget.SuperSaiyanScrollView;
 
-public class MainActivity extends ListActivity {
+public class MainActivity extends ListActivity implements OnCheckedChangeListener {
 
     private SectionedListAdapter<PocketMonsterAdapter> adapter;
     private SuperSaiyanScrollView scrollView;
+    private CheckBox showSectionTitlesCheckBox, showOverlaysCheckBox;
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +38,10 @@ public class MainActivity extends ListActivity {
         setContentView(R.layout.activity_main);
         
         scrollView = (SuperSaiyanScrollView) findViewById(R.id.scroll);
+        showSectionTitlesCheckBox = (CheckBox) findViewById(R.id.checkbox_titles);
+        showOverlaysCheckBox = (CheckBox) findViewById(R.id.checkbox_overlays);
+        showSectionTitlesCheckBox.setOnCheckedChangeListener(this);
+        showOverlaysCheckBox.setOnCheckedChangeListener(this);
         
         List<PocketMonster> monsters = PocketMonsterHelper.readInPocketMonsters(this);
         
@@ -136,7 +144,18 @@ public class MainActivity extends ListActivity {
         
         return false;
     }
-    
-    
 
+    @Override
+    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+        switch (buttonView.getId()) {
+            case R.id.checkbox_titles:
+                adapter.setShowSectionTitles(isChecked);
+                break;
+            case R.id.checkbox_overlays:
+                adapter.setShowSectionOverlays(isChecked);
+                break;
+        }
+        adapter.notifyDataSetChanged();
+        scrollView.refresh();
+    }
 }

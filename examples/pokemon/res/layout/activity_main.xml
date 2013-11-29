@@ -9,21 +9,50 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".MainActivity" >
 
-       <com.nolanlawson.supersaiyan.widget.SuperSaiyanScrollView
-            android:id="@+id/scroll"
+    <com.nolanlawson.supersaiyan.widget.SuperSaiyanScrollView
+        android:id="@+id/scroll"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/checkboxes"
+        myapp:ssjn_overlaySizeScheme="small" >
+
+        <com.nolanlawson.supersaiyan.widget.SuperSaiyanListView
+            android:id="@android:id/list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            myapp:ssjn_overlaySizeScheme="small"
-            >
+            android:drawSelectorOnTop="false"
+            android:scrollbars="none" />
+    </com.nolanlawson.supersaiyan.widget.SuperSaiyanScrollView>
 
-            <com.nolanlawson.supersaiyan.widget.SuperSaiyanListView
-                android:id="@android:id/list"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:drawSelectorOnTop="false"
-                android:scrollbars="none"
-                />
-            
-        </com.nolanlawson.supersaiyan.widget.SuperSaiyanScrollView>
+    <LinearLayout
+        android:id="@+id/checkboxes"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@android:drawable/alert_light_frame"
+        android:orientation="horizontal" >
+
+        <CheckBox
+            android:id="@+id/checkbox_titles"
+            android:layout_width="0px"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_weight=".5"
+            android:checked="true"
+            android:text="Show section titles"
+            android:textSize="11sp" />
+
+        <CheckBox
+            android:id="@+id/checkbox_overlays"
+            android:layout_width="0px"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_weight=".5"
+            android:checked="true"
+            android:text="Show overlays"
+            android:textSize="11sp" />
+    </LinearLayout>
 
 </RelativeLayout>

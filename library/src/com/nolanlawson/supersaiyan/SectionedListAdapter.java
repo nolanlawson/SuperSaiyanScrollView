@@ -11,6 +11,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
+import com.nolanlawson.supersaiyan.util.ArrayUtil;
+
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,6 +33,7 @@ public class SectionedListAdapter< T extends BaseAdapter> extends BaseAdapter im
     public static final int TYPE_SECTION_HEADER = 0;
     
     private boolean showSectionOverlays = true;
+    private boolean showSectionTitles = true;
     private Sorting keySorting = Sorting.InputOrder;
     private Sorting valueSorting = Sorting.InputOrder;
     private Comparator<? super CharSequence> keyComparator;
@@ -42,6 +45,8 @@ public class SectionedListAdapter< T extends BaseAdapter> extends BaseAdapter im
     private Map<CharSequence, List<Integer>> headersToSections;
     private int[] absoluteIndexToRelativeIndex;
     private boolean[] absoluteIndexToIsHeader;
+    private int[] sectionsToPositions;
+    private int[] positionsToSections;
     private BaseAdapter subAdapter;
 
     @SuppressWarnings("rawtypes")
@@ -65,14 +70,14 @@ public class SectionedListAdapter< T extends BaseAdapter> extends BaseAdapter im
      * @return
      */
     
-    /**
-     * True if we're showing the section overlays.
-     * @return
-     */
     public boolean isShowSectionOverlays() {
         return showSectionOverlays;
     }
     
+    public boolean isShowListTitles() {
+        return showSectionTitles;
+    }
+
     /**
      * If false, then we won't show the rectangular section overlays.  True by default.
      * 
@@ -81,7 +86,16 @@ public class SectionedListAdapter< T extends BaseAdapter> extends BaseAdapter im
     public void setShowSectionOverlays(boolean showSectionOverlays) {
         this.showSectionOverlays = showSectionOverlays;
     }
-
+    
+    /**
+     * If false, then we won't show the in-line list titles.  True by default.
+     * 
+     * @param showSectionOverlays
+     */
+    public void setShowSectionTitles(boolean showSectionTitles) {
+        this.showSectionTitles = showSectionTitles;
+    }
+    
     public BaseAdapter getSubAdapter() {
         return subAdapter;
     }
@@ -324,22 +338,32 @@ public class SectionedListAdapter< T extends BaseAdapter> extends BaseAdapter im
         sortValuesIfNecessary(sections);
         
         // build up a list of all elements, including section titles
-        int totalLength = sections.size() + subAdapter.getCount() + numDuplicates;
-        absoluteIndexToRelativeIndex = new int[totalLength];
-        absoluteIndexToIsHeader = new boolean[totalLength];
+        int totalLength = (showSectionTitles ? sections.size() : 0) + subAdapter.getCount() + numDuplicates;
+        absoluteIndexToRelativeIndex = ArrayUtil.recycleIfPossible(absoluteIndexToRelativeIndex, totalLength);
+        absoluteIndexToIsHeader = ArrayUtil.recycleIfPossible(absoluteIndexToIsHeader, totalLength);
+        sectionsToPositions = ArrayUtil.recycleIfPossible(sectionsToPositions, sections.size());
+        positionsToSections = ArrayUtil.recycleIfPossible(positionsToSections, totalLength);
+        
         headersToSections = sections;
         int counter = 0;
         int headerCounter = 0;
         for (List<Integer> sectionContent : sections.values()) {
             
-            absoluteIndexToRelativeIndex[counter] = headerCounter;
-            absoluteIndexToIsHeader[counter] = true;
-            counter++;
+            sectionsToPositions[headerCounter] = counter;
+            positionsToSections[counter] = headerCounter;
+            
+            if (showSectionTitles) {
+                absoluteIndexToRelativeIndex[counter] = headerCounter;
+                absoluteIndexToIsHeader[counter] = true;
+                counter++;
+            }
+            
             for (Integer element : sectionContent) {
                 absoluteIndexToRelativeIndex[counter] = element;
                 absoluteIndexToIsHeader[counter] = false;
                 counter++;
             }
+            
             headerCounter++;
         }
         headers.clear();
@@ -409,20 +433,6 @@ public class SectionedListAdapter< T extends BaseAdapter> extends BaseAdapter im
 
         if (!showSectionOverlays) {
             return EMPTY_SECTION_INDEXER;
-        }
-
-        int[] sectionsToPositions = new int[headersToSections.size()];
-        int[] positionsToSections = new int[absoluteIndexToRelativeIndex.length];
-        
-        int lastHeader = -1;
-        for (int i = 0; i < absoluteIndexToRelativeIndex.length; i++) {
-            boolean isHeader = absoluteIndexToIsHeader[i];
-            
-            if (isHeader) {
-                lastHeader = absoluteIndexToRelativeIndex[i];
-                sectionsToPositions[lastHeader] = i;
-            }
-            positionsToSections[i] = lastHeader;
         }
         
         Object[] sectionNamesArray = headersToSections.keySet().toArray();
@@ -512,6 +522,16 @@ public class SectionedListAdapter< T extends BaseAdapter> extends BaseAdapter im
          */
         public SectionedListAdapter.Builder<T> hideSectionOverlays() {
             adapter.setShowSectionOverlays(false);
+            return this;
+        }
+        
+        /**
+         * Hides the section titles, i.e. the in-line list titles for each section.  By 
+         * default, they are always shown.
+         * @return
+         */
+        public SectionedListAdapter.Builder<T> hideSectionTitles() {
+            adapter.setShowSectionTitles(false);
             return this;
         }
         
