@@ -1,7 +1,7 @@
 SuperSaiyanScrollView
 =====================
 
-Super-fast, super-lightweight sectioned lists for Android.
+Super-fast, super-lightweight sectioned lists for Android, with customizable overlays.
 
 ![Screenshot][1]
 
