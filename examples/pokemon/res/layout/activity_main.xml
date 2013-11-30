@@ -16,11 +16,10 @@
         android:layout_above="@+id/checkboxes"
         myapp:ssjn_overlaySizeScheme="small" >
 
-        <com.nolanlawson.supersaiyan.widget.SuperSaiyanListView
+        <ListView
             android:id="@android:id/list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:drawSelectorOnTop="false"
             android:scrollbars="none" />
     </com.nolanlawson.supersaiyan.widget.SuperSaiyanScrollView>
 

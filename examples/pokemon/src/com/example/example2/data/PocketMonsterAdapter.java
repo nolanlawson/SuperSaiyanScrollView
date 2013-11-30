@@ -52,7 +52,7 @@ public class PocketMonsterAdapter extends ArrayAdapter<PocketMonster> {
             type2TV.setText(monster.getType2());
             styleType(type2TV, monster.getType2());
         } else {
-            // monsters has one type
+            // monster has one type
             type2TV.setVisibility(View.INVISIBLE);
         }
         return view;

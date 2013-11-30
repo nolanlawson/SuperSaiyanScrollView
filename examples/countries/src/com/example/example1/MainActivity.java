@@ -12,7 +12,6 @@ import android.widget.ArrayAdapter;
 
 import com.example.example1.data.Country;
 import com.example.example1.data.CountryHelper;
-import com.nolanlawson.supersaiyan.OverlaySizeScheme;
 import com.nolanlawson.supersaiyan.SectionedListAdapter;
 import com.nolanlawson.supersaiyan.Sectionizer;
 import com.nolanlawson.supersaiyan.Sectionizers;
@@ -33,8 +32,7 @@ public class MainActivity extends ListActivity {
         ArrayAdapter<Country> adapter = new ArrayAdapter<Country>(
                 this, android.R.layout.simple_spinner_item, countries);
         
-        sectionedAdapter = new SectionedListAdapter.Builder<ArrayAdapter<Country>>(this)
-                .setSubAdapter(adapter)
+        sectionedAdapter = SectionedListAdapter.Builder.create(this, adapter)
                 .setSectionizer(new Sectionizer<Country>(){
 
                     @Override
@@ -59,7 +57,6 @@ public class MainActivity extends ListActivity {
     private void sortAz() {
         sectionedAdapter.setSectionizer(Sectionizers.UsingFirstLetterOfToString);
         sectionedAdapter.notifyDataSetChanged();
-        superSaiyanScrollView.setOverlaySizeScheme(OverlaySizeScheme.Small);
         superSaiyanScrollView.refresh();
     }
     
@@ -72,7 +69,6 @@ public class MainActivity extends ListActivity {
                     }
                 });
         sectionedAdapter.notifyDataSetChanged();
-        superSaiyanScrollView.setOverlaySizeScheme(OverlaySizeScheme.Normal);
         superSaiyanScrollView.refresh();
     }
 

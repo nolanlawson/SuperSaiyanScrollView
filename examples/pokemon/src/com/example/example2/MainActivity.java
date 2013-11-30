@@ -47,8 +47,7 @@ public class MainActivity extends ListActivity implements OnCheckedChangeListene
         
         PocketMonsterAdapter subAdapter = new PocketMonsterAdapter(this, monsters);
         
-        adapter = new SectionedListAdapter.Builder<PocketMonsterAdapter>(this)
-                .setSubAdapter(subAdapter)
+        adapter = SectionedListAdapter.Builder.create(this, subAdapter)
                 .setSectionizer(Sectionizers.UsingFirstLetterOfToString)
                 .sortKeys()
                 .sortValues(new Comparator<PocketMonster>(){

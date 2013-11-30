@@ -507,12 +507,19 @@ public class SectionedListAdapter< T extends BaseAdapter> extends BaseAdapter im
 
         private SectionedListAdapter<T> adapter;
 
+        private Builder(Context context, T subAdapter) {
+            adapter = new SectionedListAdapter<T>(context);
+            adapter.setSubAdapter(subAdapter);
+        }
+        
         /**
          * Start a new SectionedListAdapter.Builder chain with the given context.
          * @param context
+         * @param subAdapter Set the subAdapter associated with the SectionedListAdapter, i.e. the adapter to use for all the list
+         * items that aren't section headers (i.e. the section content).
          */
-        public Builder(Context context) {
-            adapter = new SectionedListAdapter<T>(context);
+        public static <T extends BaseAdapter> Builder<T> create(Context context, T subAdapter) {
+            return new Builder<T>(context, subAdapter);
         }
 
         /**
