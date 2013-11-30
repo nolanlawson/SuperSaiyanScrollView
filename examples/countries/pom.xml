@@ -31,7 +31,13 @@
 
 	<build>
 		<sourceDirectory>src</sourceDirectory>
-
+                    <extensions>
+      <extension>
+        <groupId>org.springframework.build</groupId>
+        <artifactId>aws-maven</artifactId>
+        <version>4.4.0.RELEASE</version>
+      </extension>
+    </extensions>
 		<plugins>
 			<plugin>
 				<groupId>com.jayway.maven.plugins.android.generation2</groupId>
@@ -49,4 +55,16 @@
 
 		</plugins>
 	</build>
+  <distributionManagement>
+    <repository>
+      <id>supersaiyan-s3-releases</id>
+      <name>AWS Release Repository</name>
+      <url>s3://nolanlawson/dist/com.nolanlawson.supersaiyan/release</url>
+    </repository>
+    <snapshotRepository>
+      <id>supersaiyan-s3-snapshots</id>
+      <name>AWS Snapshot Repository</name>
+      <url>s3://nolanlawson/dist/com.nolanlawson.supersaiyan/snapshot</url>
+    </snapshotRepository>
+  </distributionManagement>
 </project>
