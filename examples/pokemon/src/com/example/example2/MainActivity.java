@@ -64,8 +64,15 @@ public class MainActivity extends ListActivity implements OnCheckedChangeListene
     private void sortByAz() {
         adapter.setSectionizer(Sectionizers.UsingFirstLetterOfToString);
         adapter.setKeySorting(Sorting.Natural);
-        adapter.notifyDataSetChanged();
+        adapter.setValueSorting(Sorting.Explicit);
+        adapter.setValueComparator(new Comparator<PocketMonster>(){
+
+                    @Override
+                    public int compare(PocketMonster left, PocketMonster right) {
+                        return left.getName().compareToIgnoreCase(right.getName());
+                    }});
         scrollView.setOverlaySizeScheme(OverlaySizeScheme.Small);
+        adapter.notifyDataSetChanged();
         scrollView.refresh();
     }
     
@@ -84,8 +91,9 @@ public class MainActivity extends ListActivity implements OnCheckedChangeListene
             }
         });
         adapter.setKeySorting(Sorting.Natural);
-        adapter.notifyDataSetChanged();
+        adapter.setValueSorting(Sorting.InputOrder);
         scrollView.setOverlaySizeScheme(OverlaySizeScheme.Normal);
+        adapter.notifyDataSetChanged();
         scrollView.refresh();
     }
     
@@ -114,8 +122,9 @@ public class MainActivity extends ListActivity implements OnCheckedChangeListene
             }
         });
         adapter.setKeySorting(Sorting.InputOrder); // uses the nat'l pokedex order, since that's the original order
-        adapter.notifyDataSetChanged();
+        adapter.setValueSorting(Sorting.InputOrder);
         scrollView.setOverlaySizeScheme(OverlaySizeScheme.Large);
+        adapter.notifyDataSetChanged();
         scrollView.refresh();
     }
 

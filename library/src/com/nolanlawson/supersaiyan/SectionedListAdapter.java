@@ -123,7 +123,7 @@ public class SectionedListAdapter< T extends BaseAdapter> extends BaseAdapter im
 
     /**
      * Set the value sorting associated with this SectionedListAdapter.  If you use Explicit, we assume you're
-     * also calling setKeyComparator().  If you use Natural, we assume that the values implement Comparable.
+     * also calling setValueComparator().  If you use Natural, we assume that the values implement Comparable.
      * 
      * @param valueSorting
      */
@@ -136,7 +136,9 @@ public class SectionedListAdapter< T extends BaseAdapter> extends BaseAdapter im
     }
 
     /**
-     * Set this if you've previously set setKeySorting(Sorting.Explicit)
+     * Sets the comparator to use with Sorting.Explicit. 
+     * Make sure you've previously set setKeySorting(Sorting.Explicit)!
+     * 
      * @param keyComparator
      */
     public void setKeyComparator(Comparator<? super CharSequence> keyComparator) {
@@ -148,8 +150,10 @@ public class SectionedListAdapter< T extends BaseAdapter> extends BaseAdapter im
     }
     
     /**
-     * Set this if you've previously set setValueSorting(Sorting.Explicit)
-     * @param keyComparator
+     * Sets the comparator to use with Sorting.Explicit. 
+     * Make sure you've previously set setValueSorting(Sorting.Explicit)!
+     * 
+     * @param valueComparator
      */
     public void setValueComparator(Comparator<?> valueComparator) {
         this.valueComparator = valueComparator;
@@ -604,6 +608,7 @@ public class SectionedListAdapter< T extends BaseAdapter> extends BaseAdapter im
          * @return
          */
         public SectionedListAdapter.Builder<T> sortKeys(Comparator<? super CharSequence> keyComparator) {
+            adapter.keySorting = Sorting.Explicit;
             adapter.keyComparator = keyComparator;
             return this;
         }
@@ -617,6 +622,7 @@ public class SectionedListAdapter< T extends BaseAdapter> extends BaseAdapter im
          * @return
          */
         public SectionedListAdapter.Builder<T> sortValues(Comparator<?> valueComparator) {
+            adapter.valueSorting = Sorting.Explicit;
             adapter.valueComparator = valueComparator;
             return this;
         }
