@@ -533,6 +533,7 @@ public class SuperSaiyanScrollView extends FrameLayout
      */
 	public void refresh() {
 		getSections();
+		mDrawOverlay = false; // avoids temporary content flash of previous sections
 	}
 
     public void setOverlayWidth(int overlayWidth) {
