@@ -11,13 +11,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-import com.nolanlawson.supersaiyan.util.ArrayUtil;
-
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.SectionIndexer;
+
+import com.nolanlawson.supersaiyan.util.ArrayUtil;
 
 /**
  * ListAdapter with headers for each section. Originally taken from Jeff Sharkey:
@@ -41,7 +41,7 @@ public class SectionedListAdapter< T extends BaseAdapter> extends BaseAdapter im
     private Comparator valueComparator;
     
 
-    private TypeCheckingArrayAdapter<CharSequence> headers;
+    private SectionTitleAdapter sectionTitleAdapter;
     private Map<CharSequence, List<Integer>> headersToSections;
     private int[] absoluteIndexToRelativeIndex;
     private boolean[] absoluteIndexToIsHeader;
@@ -62,7 +62,7 @@ public class SectionedListAdapter< T extends BaseAdapter> extends BaseAdapter im
      * @param context
      */
     private SectionedListAdapter(Context context) {
-        this.headers = new TypeCheckingArrayAdapter<CharSequence>(context, R.layout.list_header);
+        this.sectionTitleAdapter = new SectionTitleAdapter(context, R.layout.list_header);
     }
     
     /**
@@ -210,7 +210,7 @@ public class SectionedListAdapter< T extends BaseAdapter> extends BaseAdapter im
         int subPosition = absoluteIndexToRelativeIndex[position];
         boolean isHeader = absoluteIndexToIsHeader[position];
         
-        return isHeader ? headers.getItem(subPosition) : subAdapter.getItem(subPosition);
+        return isHeader ? sectionTitleAdapter.getItem(subPosition) : subAdapter.getItem(subPosition);
     }
 
     @Override
@@ -264,7 +264,7 @@ public class SectionedListAdapter< T extends BaseAdapter> extends BaseAdapter im
         boolean isHeader = absoluteIndexToIsHeader[position];
         int subPosition = absoluteIndexToRelativeIndex[position];
         if (isHeader) {
-            return headers.getView(subPosition, convertView, parent);
+            return sectionTitleAdapter.getView(subPosition, convertView, parent);
         } else {
             return subAdapter.getView(subPosition, convertView, parent);
         }
@@ -366,9 +366,9 @@ public class SectionedListAdapter< T extends BaseAdapter> extends BaseAdapter im
             
             headerCounter++;
         }
-        headers.clear();
+        sectionTitleAdapter.clear();
         for (CharSequence section : sections.keySet()) {
-            headers.add(section);
+            sectionTitleAdapter.add(section);
         }
     }
 
