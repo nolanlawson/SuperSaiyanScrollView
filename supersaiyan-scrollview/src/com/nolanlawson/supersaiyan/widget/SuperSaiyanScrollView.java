@@ -152,6 +152,11 @@ public class SuperSaiyanScrollView extends FrameLayout
             }
             
             typedArray.recycle();
+        } else {
+        	mOverlayHeight = context.getResources().getDimensionPixelSize(R.dimen.ssjn__overlay_height);
+        	mOverlayWidth = context.getResources().getDimensionPixelSize(R.dimen.ssjn__overlay_width_normal);
+            mOverlayTextSize = context.getResources().getDimensionPixelSize(R.dimen.ssjn__overlay_text_size_normal);
+            mOverlayTextColor = context.getResources().getColor(R.color.ssjn__emphasis);
         }
         
         log.d("Initialized with mOverlayHeight: %s, mOverlayWidth: %s, mOverlayTextSize: %s, mOverlayTextColor: %s",
