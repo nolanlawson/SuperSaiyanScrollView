@@ -55,8 +55,16 @@ compile 'com.nolanlawson:supersaiyan-scrollview:1.1.0'
 Motivation
 ------
 
-Fast-scrolling sectioned lists are one of the most common UI patterns in Android, and yet it's still a pain in to implement from scratch.  The SuperSaiyanScrollView comes to the rescue with lightning-fast UI elements and helper functions to make working with sectioned lists easy.
+Fast-scrolling sectioned lists are one of the most common UI patterns in Android, and yet it's still a pain in to implement from scratch.  Nothing in the stock Android SDK provides this functionality.
 
+The SuperSaiyanScrollView comes to the rescue with lightning-fast UI elements and helper functions, to make working with sectioned lists easy.
+
+Why "Super Saiyan"?  Because:
+
+* I made it, so I get to name it.
+* It's super-fast, super-powerful, and it kicks (stock) Android's ass.
+
+![Their power levels are definitely over 9000.](http://nolanwlawson.files.wordpress.com/2013/11/android18_gets_punched_smaller.gif)
 
 Usage
 ------
