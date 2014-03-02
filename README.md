@@ -451,7 +451,7 @@ Changelog
 
 * 1.1.0
   * Convert to Gradle
-  * Add dark theme (#1)
+  * Add dark theme ([#1][issue1])
 * 1.0.0
   * Initial release.
 
@@ -460,3 +460,4 @@ Changelog
 [1]: http://nolanwlawson.files.wordpress.com/2013/11/supersaiyan3.png?w=400
 [2]: http://nolanlawson.com/2013/11/30/introducing-the-supersaiyanscollview-super-fast-sectioned-lists-for-android/
 [3]: https://github.com/nolanlawson/CustomFastScrollViewDemo
+[issue1]: https://github.com/nolanlawson/SuperSaiyanScrollView/issues/1
