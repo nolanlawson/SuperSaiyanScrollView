@@ -13,7 +13,8 @@
         android:id="@+id/scroll"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        myapp:ssjn_overlaySizeScheme="normal" >
+        myapp:ssjn_overlaySizeScheme="normal"
+        myapp:ssjn_overlayTheme="dark">
 
         <ListView
             android:id="@android:id/list"

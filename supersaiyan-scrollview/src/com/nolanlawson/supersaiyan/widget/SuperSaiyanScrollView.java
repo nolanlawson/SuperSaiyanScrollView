@@ -48,7 +48,6 @@ public class SuperSaiyanScrollView extends FrameLayout
     private static final long FADE_DURATION = 200;
 	
     private static final int THUMB_DRAWABLE = R.drawable.fastscroll_thumb_holo;
-    private static final int OVERLAY_DRAWABLE = R.drawable.popup_full_bright;
     private static final int THUMB_DRAWABLE_PRESSED = R.drawable.fastscroll_thumb_pressed_holo;
     
     private static final int[] STATE_PRESSED = new int[] {android.R.attr.state_pressed};
@@ -76,6 +75,7 @@ public class SuperSaiyanScrollView extends FrameLayout
     private Paint mPaint;
     private int mListOffset;
     private int mOverlayTextColor;
+    private int mOverlayDrawableResId;
 
     private Object [] mSections;
     private String mSectionText;
@@ -141,7 +141,17 @@ public class SuperSaiyanScrollView extends FrameLayout
                     context.getResources().getDimensionPixelSize(R.dimen.ssjn__overlay_text_size_normal));
             mOverlayTextColor = typedArray.getColor(R.styleable.SuperSaiyanScrollView_ssjn_overlayTextColor, 
                     context.getResources().getColor(R.color.ssjn__emphasis));
-            
+
+            int overlayTheme = typedArray.getInt(R.styleable.SuperSaiyanScrollView_ssjn_overlayTheme, 1);
+
+            if (overlayTheme == 0) {
+                // dark
+                mOverlayDrawableResId = R.drawable.popup_full_dark;
+            } else {
+                // light
+                mOverlayDrawableResId = R.drawable.popup_full_bright;
+            }
+
             int schemeIndex = typedArray.getInt(R.styleable.SuperSaiyanScrollView_ssjn_overlaySizeScheme, -1);
             
             if (schemeIndex != -1) {
@@ -173,7 +183,7 @@ public class SuperSaiyanScrollView extends FrameLayout
                 res.getDrawable(THUMB_DRAWABLE));
         useThumbDrawable(thumbDrawable);
 
-        mOverlayDrawable = res.getDrawable(OVERLAY_DRAWABLE);
+        mOverlayDrawable = res.getDrawable(mOverlayDrawableResId);
 
         mScrollCompleted = true;
         setWillNotDraw(false);

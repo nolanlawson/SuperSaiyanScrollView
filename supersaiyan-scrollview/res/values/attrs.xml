@@ -12,6 +12,10 @@
             <flag name="xlarge" value="3"/>
         </attr>
         <attr name="ssjn_overlayTextColor" format="color" />
+        <attr name="ssjn_overlayTheme">
+            <flag name="dark" value="0"/>
+            <flag name="light" value="1"/>
+        </attr>
         
     </declare-styleable>
 
