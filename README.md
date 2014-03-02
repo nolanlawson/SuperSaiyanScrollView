@@ -52,10 +52,10 @@ If you use Proguard, add the following to your `proguard.cfg` (Gradle handles th
 compile 'com.nolanlawson:supersaiyan-scrollview:1.1.0'
 ```
 
-Summary
+Motivation
 ------
 
-Fast-scrolling sectioned lists are one of the most common UI patterns in Android, and yet it's a pain in to implement yourself.  The SuperSaiyanScrollView comes to the rescue with lightnight-fast UI elements and helper functions to make working with sectioned lists easy.
+Fast-scrolling sectioned lists are one of the most common UI patterns in Android, and yet it's still a pain in to implement from scratch.  The SuperSaiyanScrollView comes to the rescue with lightning-fast UI elements and helper functions to make working with sectioned lists easy.
 
 
 Usage
@@ -129,7 +129,7 @@ public class Country {
 }
 ```
 
-We use a basic `ArrayAdapter&lt;Country&gt;` to display the countries:
+We use a basic `ArrayAdapter<Country>` to display the countries:
 
 ```java
 ArrayAdapter<Country> adapter = new ArrayAdapter<Country>(
@@ -216,7 +216,7 @@ Notice that you never need to call `adapter.sort()` or `Collections.sort()` your
 
 <h4>Dark theme</h4>
 
-Don't like the light overlay?  Put on your shades and set ```myapp:ssjn_overlayTheme="dark"```:
+Don't like the light overlay?  Put on your shades and set ```myapp:ssjn_overlayTheme="dark"``` in the XML:
 
 ![Screenshot](http://nolanwlawson.files.wordpress.com/2014/03/ssjn_dark_vs_light.png?w=570)
 
@@ -257,7 +257,7 @@ Next, use values prefixed with `ssjn_` to define the size of the overlay:
 </com.nolanlawson.supersaiyan.widget.SuperSaiyanScrollView>
 ```
 
-I include the built-in schemes `small` (for one letter), `normal` (for most use cases), and `large` and `xlarge` (for longer section titles).  Section titles of up to two lines (separated by `&#092;n`) are supported.
+I include the built-in schemes `small` (for one letter), `normal` (for most use cases), and `large` and `xlarge` (for longer section titles).  Section titles of up to two lines (separated by `\n`) are supported.
 
 ![Screenshot](http://nolanwlawson.files.wordpress.com/2013/11/saiyan7.png?w=570)
 
