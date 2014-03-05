@@ -1,7 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.nolanlawson.supersaiyan"
-    android:versionCode="1"
-    android:versionName="1.0" >
+    package="com.nolanlawson.supersaiyan">
 
     <uses-sdk
         android:minSdkVersion="7"
