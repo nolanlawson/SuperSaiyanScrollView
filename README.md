@@ -1,7 +1,7 @@
 SuperSaiyanScrollView
 =====================
 
-__Version 1.1.0__
+__Version 1.1.1__
 
 Super-fast, super-lightweight sectioned lists for Android.
 
@@ -42,14 +42,14 @@ If you use Proguard, add the following to your `proguard.cfg` (Gradle handles th
 <dependency>
    <groupId>com.nolanlawson</groupId>
    <artifactId>supersaiyan-scrollview</artifactId>
-   <version>1.1.0</version>
+   <version>1.1.1</version>
 </dependency>
 ```
 
 #### Gradle
 
 ```groovy
-compile 'com.nolanlawson:supersaiyan-scrollview:1.1.0'
+compile 'com.nolanlawson:supersaiyan-scrollview:1.1.1'
 ```
 
 Motivation
@@ -457,6 +457,8 @@ Changelog
 --------
 
 
+* 1.1.1
+  * Fix potential issue when there are no XML attributes ([#3][issue3]) 
 * 1.1.0
   * Convert to Gradle
   * Add dark theme ([#1][issue1])
@@ -469,3 +471,4 @@ Changelog
 [2]: http://nolanlawson.com/2013/11/30/introducing-the-supersaiyanscollview-super-fast-sectioned-lists-for-android/
 [3]: https://github.com/nolanlawson/CustomFastScrollViewDemo
 [issue1]: https://github.com/nolanlawson/SuperSaiyanScrollView/issues/1
+[issue3]: https://github.com/nolanlawson/SuperSaiyanScrollView/issues/3
