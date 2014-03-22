@@ -14,7 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         myapp:ssjn_overlaySizeScheme="normal"
-        myapp:ssjn_overlayTheme="dark">
+        myapp:ssjn_overlayTheme="light">
 
         <ListView
             android:id="@android:id/list"
