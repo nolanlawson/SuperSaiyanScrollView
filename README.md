@@ -111,8 +111,8 @@ SectionedListAdapter<MyCoolAdapter> adapter =
 
 Let's walk through some short examples, which should demonstrate the simplicity and flexibility of the `SuperSaiyanScrollView`.  The source code for these apps is included in the GitHub project, and you can download the APKs here:
 
-* [Example #1: Countries (APK)](https://nolanlawson.s3.amazonaws.com/dist/com.nolanlawson.supersaiyan/release/1.1.0/example-countries.apk)
-* [Example #2: Pokémon (APK)](https://nolanlawson.s3.amazonaws.com/dist/com.nolanlawson.supersaiyan/release/1.1.0/example-pokemon.apk)
+* [Example #1: Countries (APK)](https://nolanlawson.s3.amazonaws.com/dist/com.nolanlawson.supersaiyan/release/1.1.1/example-countries.apk)
+* [Example #2: Pokémon (APK)](https://nolanlawson.s3.amazonaws.com/dist/com.nolanlawson.supersaiyan/release/1.1.1/example-pokemon.apk)
 
 <h3>Example #1: Countries</h3>
 
