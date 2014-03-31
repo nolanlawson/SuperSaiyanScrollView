@@ -49,7 +49,7 @@ If you use Proguard, add the following to your `proguard.cfg` (Gradle handles th
 #### Gradle
 
 ```groovy
-compile 'com.nolanlawson:supersaiyan-scrollview:1.1.1'
+compile 'com.nolanlawson:supersaiyan-scrollview:1.1.1@aar'
 ```
 
 Motivation
