@@ -567,9 +567,9 @@ public class SectionedListAdapter< T extends BaseAdapter> extends BaseAdapter im
 
         /**
          * Set the SectionTitleAdapter associated with the SectionedListAdapter
-         * adapter used to display headers
+         * adapter used to display list headers
          *
-         * @param subAdapter
+         * @param sectionTitleAdapter
          * @return
          */
         public SectionedListAdapter.Builder<T> setSectionTitleAdapter(SectionTitleAdapter sectionTitleAdapter) {
@@ -580,7 +580,7 @@ public class SectionedListAdapter< T extends BaseAdapter> extends BaseAdapter im
         /**
          * Set the SectionTitleAdapter header layout associated with the SectionedListAdapter
          *
-         * @param subAdapter
+         * @param layoutResourceId
          * @return
          */
         public SectionedListAdapter.Builder<T> setSectionTitleLayout(int layoutResourceId) {
