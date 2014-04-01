@@ -62,7 +62,7 @@ public class SectionedListAdapter< T extends BaseAdapter> extends BaseAdapter im
      * @param context
      */
     private SectionedListAdapter(Context context) {
-        this.sectionTitleAdapter = new SectionTitleAdapter(context, R.layout.list_header);
+        super();
     }
     
     /**
@@ -76,6 +76,10 @@ public class SectionedListAdapter< T extends BaseAdapter> extends BaseAdapter im
     
     public boolean isShowListTitles() {
         return showSectionTitles;
+    }
+
+    public void setSectionTitleAdapter(SectionTitleAdapter sectionTitleAdapter) {
+        this.sectionTitleAdapter = sectionTitleAdapter;
     }
 
     /**
@@ -514,6 +518,7 @@ public class SectionedListAdapter< T extends BaseAdapter> extends BaseAdapter im
         private Builder(Context context, T subAdapter) {
             adapter = new SectionedListAdapter<T>(context);
             adapter.setSubAdapter(subAdapter);
+            adapter.setSectionTitleAdapter(new SectionTitleAdapter(context, R.layout.list_header));
         }
         
         /**
@@ -555,6 +560,29 @@ public class SectionedListAdapter< T extends BaseAdapter> extends BaseAdapter im
          */
         public SectionedListAdapter.Builder<T> setSubAdapter(T subAdapter) {
             adapter.setSubAdapter(subAdapter);
+            return this;
+        }
+
+        /**
+         * Set the SectionTitleAdapter associated with the SectionedListAdapter
+         * adapter used to display headers
+         *
+         * @param subAdapter
+         * @return
+         */
+        public SectionedListAdapter.Builder<T> setSectionTitleAdapter(SectionTitleAdapter sectionTitleAdapter) {
+            adapter.setSectionTitleAdapter(sectionTitleAdapter);
+            return this;
+        }
+
+        /**
+         * Set the SectionTitleAdapter header layout associated with the SectionedListAdapter
+         *
+         * @param subAdapter
+         * @return
+         */
+        public SectionedListAdapter.Builder<T> setSectionTitleLayout(int layoutResourceId) {
+            adapter.setSectionTitleAdapter(new SectionTitleAdapter(context, layoutResourceId));
             return this;
         }
         
