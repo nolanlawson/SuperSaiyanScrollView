@@ -514,10 +514,12 @@ public class SectionedListAdapter< T extends BaseAdapter> extends BaseAdapter im
     public static class Builder<T extends BaseAdapter> {
 
         private SectionedListAdapter<T> adapter;
+        private Context context;
 
         private Builder(Context context, T subAdapter) {
             adapter = new SectionedListAdapter<T>(context);
             adapter.setSubAdapter(subAdapter);
+            this.context = context;
             adapter.setSectionTitleAdapter(new SectionTitleAdapter(context, R.layout.list_header));
         }
         
