@@ -185,8 +185,8 @@ public class SectionedListAdapter< T extends BaseAdapter> extends BaseAdapter im
 
     @Override
     public void notifyDataSetChanged() {
-        super.notifyDataSetChanged();
         refresh();
+        super.notifyDataSetChanged();
     }
     
     private void refresh() {
