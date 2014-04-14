@@ -2,7 +2,7 @@ apply plugin: 'android-library'
 apply plugin: 'maven'
 apply plugin: 'signing'
 
-version = "1.1.1"
+version = "1.2.0"
 group = "com.nolanlawson"
 
 
@@ -67,8 +67,8 @@ android {
     buildToolsVersion "19.0.0"
 
     defaultConfig {
-        versionCode 3
-        versionName '1.1.1'
+        versionCode 4
+        versionName '1.2.0'
     }
 
     release {
