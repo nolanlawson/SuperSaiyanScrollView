@@ -42,14 +42,14 @@ If you use Proguard, add the following to your `proguard.cfg` (Gradle handles th
 <dependency>
    <groupId>com.nolanlawson</groupId>
    <artifactId>supersaiyan-scrollview</artifactId>
-   <version>1.1.1</version>
+   <version>1.2.0</version>
 </dependency>
 ```
 
 #### Gradle
 
 ```groovy
-compile 'com.nolanlawson:supersaiyan-scrollview:1.1.1@aar'
+compile 'com.nolanlawson:supersaiyan-scrollview:1.2.0@aar'
 ```
 
 Motivation
@@ -471,7 +471,9 @@ This project was originally derived from my own [CustomFastScrollViewDemo][3], w
 Changelog
 --------
 
-
+* 1.2.0
+  * Specify a custom list header ([#7](https://github.com/nolanlawson/SuperSaiyanScrollView/issues/7))
+  * Fix for deta not being refreshed ([#8](https://github.com/nolanlawson/SuperSaiyanScrollView/issues/8))
 * 1.1.1
   * Fix potential issue when there are no XML attributes ([#3][issue3]) 
 * 1.1.0
