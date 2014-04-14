@@ -446,6 +446,21 @@ This example app also shows how you can disable the section titles or section ov
 
 *Comparison of hiding overlays and hiding section titles*
 
+New in 1.2.0!
+---------
+
+Thanks to some awesome work by [michaldarda](https://github.com/michaldarda), you can now specify a custom `SectionTitleAdapter` or layout for the `SectionTitleAdapter`. If you use a layout, it should be an XML layout resource with attribute `android:id="@+id/list_header_title"` to indicate the header text.  (The default one can be found [here](https://github.com/nolanlawson/SuperSaiyanScrollView/blob/master/supersaiyan-scrollview/res/layout/list_header.xml) if you want to just modify that.)
+
+```java
+import com.nolanlawson.supersaiyan.SectionTitleAdapter;
+
+sectionedAdapter = SectionedListAdapter.Builder.create(this, subAdapter)
+    .setSectionTitleLayout(R.layout.my_layout_id)
+    // alternative version
+    .setSectionTitleAdapter(new MySubclassOfSectionTitleAdapter())    
+    .build();
+```
+
 Details
 --------
 
