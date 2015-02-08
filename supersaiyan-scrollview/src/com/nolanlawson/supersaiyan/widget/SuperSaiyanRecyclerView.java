@@ -30,11 +30,11 @@ import java.util.List;
 
 
 /**
- * Fast Scroll View that allows for arbitrary sizing of the overlay.  Based on 
+ * Fast Scroll View that allows for arbitrary sizing of the overlay.  Based on
  * http://nolanlawson.com/2012/03/19/spruce-up-your-listview-by-dividing-it-into-sections/
- * 
+ *
  * @author nolan
- * 
+ *
  */
 public class SuperSaiyanRecyclerView extends FrameLayout implements OnHierarchyChangeListener {
 
@@ -240,7 +240,7 @@ public class SuperSaiyanRecyclerView extends FrameLayout implements OnHierarchyC
         // Get both the scrollbar states drawables
         final Resources res = context.getResources();
         StateListDrawable thumbDrawable = new StateListDrawable();
-        //This for pressed true 
+        //This for pressed true
         thumbDrawable.addState( STATE_PRESSED, res.getDrawable( THUMB_DRAWABLE_PRESSED ) );
         //This for pressed false
         thumbDrawable.addState( STATE_UNPRESSED, res.getDrawable( THUMB_DRAWABLE ) );

@@ -5,6 +5,7 @@ apply plugin: 'signing'
 version = "1.2.0"
 group = "com.nolanlawson"
 
+
 configurations {
     archives {
         extendsFrom configurations.default
@@ -17,23 +18,86 @@ signing {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: '*.jar')   
-    compile "com.android.support:recyclerview-v7:21.0.3"
+    compile fileTree(dir: 'libs', include: '*.jar')
+    compile "com.android.support:recyclerview-v7:21+"
+}
+
+uploadArchives {
+    configuration = configurations.archives
+    repositories.mavenDeployer {
+        beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+
+        repository(url: sonatypeRepo) {
+            authentication(userName: sonatypeUsername,
+                    password: sonatypePassword)
+        }
+
+        pom.project {
+            name 'Supersaiyan ScrollView'
+            packaging 'aar'
+            description 'Super-fast sectioned ScrollView library for Android'
+            url 'https://github.com/nolanlawson/SuperSaiyanScrollView'
+
+            scm {
+                url 'scm:git@github.com:nolanlawson/SuperSaiyanScrollView.git'
+                connection 'scm:git@github.com:nolanlawson/SuperSaiyanScrollView.git'
+                developerConnection 'scm:git@github.com:nolanlawson/SuperSaiyanScrollView.git'
+            }
+
+            licenses {
+                license {
+                    name 'The Apache Software License, Version 2.0'
+                    url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                    distribution 'repo'
+                }
+            }
+
+            developers {
+                developer {
+                    id 'nolanlawson'
+                    name 'Nolan Lawson'
+                    email 'nolan@nolanlawson.com'
+                }
+            }
+        }
+    }
 }
 
 android {
-    compileSdkVersion 21
-    buildToolsVersion "21.1.2"
+    compileSdkVersion 19
+    buildToolsVersion "19.0.0"
 
     defaultConfig {
         versionCode 4
         versionName '1.2.0'
     }
 
-    buildTypes {
-        debug {
+    release {
+        runProguard false
+        proguardFile 'proguard-rules.txt'
+    }
+
+    sourceSets {
+        main {
+            manifest.srcFile 'AndroidManifest.xml'
+            java.srcDirs = ['src']
+            resources.srcDirs = ['src']
+            aidl.srcDirs = ['src']
+            renderscript.srcDirs = ['src']
+            res.srcDirs = ['res']
+            assets.srcDirs = ['assets']
         }
-        release {
-        }
+
+        // Move the tests to tests/java, tests/res, etc...
+        instrumentTest.setRoot('tests')
+
+        // Move the build types to build-types/<type>
+        // For instance, build-types/debug/java, build-types/debug/AndroidManifest.xml, ...
+        // This moves them out of them default location under src/<type>/... which would
+        // conflict with src/ being used by the main source set.
+        // Adding new build types or product flavors should be accompanied
+        // by a similar customization.
+        debug.setRoot('build-types/debug')
+        release.setRoot('build-types/release')
     }
 }

@@ -1,0 +1,13 @@
+gen
+bin
+dump.txt
+seeds.txt
+usage.txt
+*~
+target
+.DS_Store
+android-support-v4.jar
+*.iml
+build
+local.properties
+.gradle

@@ -128,7 +128,7 @@ public class MainActivity extends Activity {
 
         superSaiyanRecyclerView.setSections( sectionNames, sectionPositions );
     }
-    
+
     private void sortByContinent() {
         List<String> sectionNames = new ArrayList<>();
         List<Integer> sectionPositions = new ArrayList<>();
@@ -160,7 +160,7 @@ public class MainActivity extends Activity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        
+
         switch (item.getItemId()) {
             case R.id.action_sort_continent:
                 sortByContinent();
@@ -170,9 +170,9 @@ public class MainActivity extends Activity {
                 sortAz();
                 break;
         }
-        
+
         return false;
-        
+
     }
 
     @Override
