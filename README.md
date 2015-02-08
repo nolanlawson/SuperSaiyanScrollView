@@ -112,7 +112,7 @@ SectionedListAdapter<MyCoolAdapter> adapter =
 Let's walk through some short examples, which should demonstrate the simplicity and flexibility of the `SuperSaiyanScrollView`.  The source code for these apps is included in the GitHub project, and you can download the APKs here:
 
 * [Example #1: Countries (APK)](https://nolanlawson.s3.amazonaws.com/dist/com.nolanlawson.supersaiyan/release/1.1.1/example-countries.apk)
-* [Example #2: PokÃ©mon (APK)](https://nolanlawson.s3.amazonaws.com/dist/com.nolanlawson.supersaiyan/release/1.1.1/example-pokemon.apk)
+* [Example #2: Pokémon (APK)](https://nolanlawson.s3.amazonaws.com/dist/com.nolanlawson.supersaiyan/release/1.1.1/example-pokemon.apk)
 
 <h3>Example #1: Countries</h3>
 
@@ -230,7 +230,7 @@ Don't like the light overlay?  Put on your shades and set ```myapp:ssjn_overlayT
 
 *Black hair or light hair - the choice is yours.*
 
-<h3>Example #2: PokÃ©mon</h3>
+<h3>Example #2: Pokémon</h3>
 
 This example shows off some of the advanced functionality of the `SuperSaiyanScrollView`.  We have three different sortings, the size of the overlay box changes to fit the text size, and we can dynamically hide both the overlays and the section titles.
 
@@ -346,15 +346,15 @@ We wrap this adapter in a `SectionedListAdapter` that, by default, sections and 
      .build();
 ```
 
-Notice that we call both `sortKeys()` and `sortValues()`, because we want both the section titles and the PokÃ©mon to be ordered alphabetically.  Since `PocketMonster` does not implement `Comparable`, we defined a custom `Comparator`.
+Notice that we call both `sortKeys()` and `sortValues()`, because we want both the section titles and the Pokémon to be ordered alphabetically.  Since `PocketMonster` does not implement `Comparable`, we defined a custom `Comparator`.
 
-Now let's say we want to organize the PokÃ©mon by region:
+Now let's say we want to organize the Pokémon by region:
 
-<a href="http://nolanwlawson.files.wordpress.com/2013/11/saiyan11.png"><img src="http://nolanwlawson.files.wordpress.com/2013/11/saiyan11.png?w=570" alt="PokÃ©mon sorted by region." width="570" height="499" class="aligncenter size-large wp-image-3078" /></a>
+<a href="http://nolanwlawson.files.wordpress.com/2013/11/saiyan11.png"><img src="http://nolanwlawson.files.wordpress.com/2013/11/saiyan11.png?w=570" alt="Pokémon sorted by region." width="570" height="499" class="aligncenter size-large wp-image-3078" /></a>
 
-Some quick background: PokÃ©mon are ordered by their "national ID," an integer value that starts at 1 (Bulbasaur) and goes up to 718 (Zygarde).  Every time Nintendo releases a new generation of PokÃ©mon games, they add about 100 new monsters, set the game in a new "region," and sell about a bazillion new PokÃ©mon toys.
+Some quick background: Pokémon are ordered by their "national ID," an integer value that starts at 1 (Bulbasaur) and goes up to 718 (Zygarde).  Every time Nintendo releases a new generation of Pokémon games, they add about 100 new monsters, set the game in a new "region," and sell about a bazillion new Pokémon toys.
 
-So basically, we can determine the regions from the PokÃ©mon's ID.  We'll define a new
+So basically, we can determine the regions from the Pokémon's ID.  We'll define a new
 `Sectionizer`, which is called when the user selects "sort by region":
 
 ```java
@@ -396,9 +396,9 @@ private void sortByRegion() {
 }
 ```
 
-Notice that we've changed the key and value sorting to `Sorting.InputOrder`, because now we want to order PokÃ©mon by their national IDs, which was the order the data was read in.  (A custom `Comparator` would have also done the trick.)  Additionally, we've increased the size of the overlay to accommodate the longer section text.
+Notice that we've changed the key and value sorting to `Sorting.InputOrder`, because now we want to order Pokémon by their national IDs, which was the order the data was read in.  (A custom `Comparator` would have also done the trick.)  Additionally, we've increased the size of the overlay to accommodate the longer section text.
 
-Now, let's say we want to organize PokÃ©mon by type.  Each PokÃ©mon has at least one elemental type (such as "fire" or "water"), but some have two.  Ideally we would like to list PokÃ©mon in multiple categories, so they could appear multiple times in the list.
+Now, let's say we want to organize Pokémon by type.  Each Pokémon has at least one elemental type (such as "fire" or "water"), but some have two.  Ideally we would like to list Pokémon in multiple categories, so they could appear multiple times in the list.
 
 To do so, we will define a `MultipleSectionizer` instead of a regular `Sectionizer`:
 
@@ -430,13 +430,13 @@ private void sortByType() {
 }
 ```
 
-Notice that the key sorting has again changed, this time to `Sorting.Natural`, which simply sorts alphabetically.  Value sorting has changed to `Sorting.InputOrder`, because we've decided to sort PokÃ©mon by their national IDs.
+Notice that the key sorting has again changed, this time to `Sorting.Natural`, which simply sorts alphabetically.  Value sorting has changed to `Sorting.InputOrder`, because we've decided to sort Pokémon by their national IDs.
 
 This works as expected:
 
 ![Screenshot](http://nolanwlawson.files.wordpress.com/2013/11/saiyan9.png?w=570)
 
-*PokÃ©mon sorted by type*
+*Pokémon sorted by type*
 
 Notice that Charizard appears in both in the "Fire" and "Flying" sections, since he has two types.
 
@@ -460,6 +460,30 @@ sectionedAdapter = SectionedListAdapter.Builder.create(this, subAdapter)
     .setSectionTitleAdapter(new MySubclassOfSectionTitleAdapter())    
     .build();
 ```
+
+New in 1.X.X!
+---------
+
+You can now use this library with a RecyclerView. Why would one want to use a RecyclerView instead of a ListView? The main reason is that RecyclerView automatically comes with (easily customizable) animations for adding and removing items from its adapter. However, RecyclerView itself does not implement any scrollbar, a fast scroll feature, or sectioning. This library now provides these features for a RecyclerView with a LinearLayoutManager.
+
+The simplest use case is simply adding a `SuperSaiyanRecyclerView` around your `RecyclerView`:
+
+```xml
+<com.nolanlawson.supersaiyan.widget.SuperSaiyanRecyclerView
+  android:id="@+id/scroll"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent">
+
+  <android.support.v7.widget.RecyclerView
+    android:id="@android:id/list"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:scrollbars="none"
+    />
+
+</com.nolanlawson.supersaiyan.widget.SuperSaiyanRecyclerView>
+```
+That's it! The RecyclerView now has a scrollbar with a fast scroll mode. To add a section overlay to the fast scroll mode, you can optionally call `setSections( List<String>sectionNames, List<Integer>sectionPositions )` on your `superSaiyanRecyclerView`, where `sectionPositions` refer to the item position in your `RecyclerView.Adapter` where a new section starts. 
 
 Details
 --------
