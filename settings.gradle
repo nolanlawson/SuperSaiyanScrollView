@@ -1,1 +1,1 @@
-include ':examples:pokemon', ':examples:countries', 'supersaiyan-scrollview'
+include ':examples:pokemon', ':examples:countries',  ':examples:countries-recyclerview', 'supersaiyan-scrollview'
