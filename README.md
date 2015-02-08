@@ -461,6 +461,32 @@ sectionedAdapter = SectionedListAdapter.Builder.create(this, subAdapter)
     .build();
 ```
 
+New in 1.X.X!
+---------
+
+You can now use this library with a RecyclerView. Why would one want to use a RecyclerView instead of a ListView? The main reason is that RecyclerView automatically comes with (easily customizable) animations for adding and removing items from its adapter. However, RecyclerView itself does not implement any scrollbar, a fast scroll feature, or sectioning. This library now provides these features for a RecyclerView with a LinearLayoutManager.
+
+The simplest use case is simply adding a `SuperSaiyanRecyclerView` around your `RecyclerView`:
+
+```xml
+<com.nolanlawson.supersaiyan.widget.SuperSaiyanRecyclerView
+  android:id="@+id/scroll"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent">
+
+  <android.support.v7.widget.RecyclerView
+    android:id="@android:id/list"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:scrollbars="none"
+    />
+
+</com.nolanlawson.supersaiyan.widget.SuperSaiyanRecyclerView>
+```
+
+That's it! The RecyclerView now has a scrollbar with a fast scroll mode. To add a section overlay to the fast scroll mode, you can optionally call `setSections( List<String>sectionNames, List<Integer>sectionPositions )` on your `superSaiyanRecyclerView`, where `sectionPositions` refer to the item position in your `RecyclerView.Adapter` where a new section starts. 
+
+
 Details
 --------
 
