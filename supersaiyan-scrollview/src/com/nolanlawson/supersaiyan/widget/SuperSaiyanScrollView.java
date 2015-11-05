@@ -76,6 +76,8 @@ public class SuperSaiyanScrollView extends FrameLayout
     private int mListOffset;
     private int mOverlayTextColor;
     private int mOverlayDrawableResId;
+    private Drawable mThumbDrawableResource;
+    private Drawable mThumbPressedDrawableResource;
 
     private Object [] mSections;
     private String mSectionText;
@@ -126,6 +128,7 @@ public class SuperSaiyanScrollView extends FrameLayout
 
     private void init(Context context, AttributeSet attrs) {
 
+        final Resources res = context.getResources();
         // set all attributes from xml
         if (attrs != null) {
             TypedArray typedArray = context.obtainStyledAttributes(attrs,
@@ -139,8 +142,11 @@ public class SuperSaiyanScrollView extends FrameLayout
             mOverlayTextSize = typedArray.getDimensionPixelSize(
                     R.styleable.SuperSaiyanScrollView_ssjn_overlayTextSize, 
                     context.getResources().getDimensionPixelSize(R.dimen.ssjn__overlay_text_size_normal));
-            mOverlayTextColor = typedArray.getColor(R.styleable.SuperSaiyanScrollView_ssjn_overlayTextColor, 
+            mOverlayTextColor = typedArray.getColor(R.styleable.SuperSaiyanScrollView_ssjn_overlayTextColor,
                     context.getResources().getColor(R.color.ssjn__emphasis));
+
+            mThumbDrawableResource = typedArray.getDrawable(R.styleable.SuperSaiyanScrollView_ssjn_thumbDrawable);
+            mThumbPressedDrawableResource = typedArray.getDrawable(R.styleable.SuperSaiyanScrollView_ssjn_thumbPressedDrawable);
 
             int overlayTheme = typedArray.getInt(R.styleable.SuperSaiyanScrollView_ssjn_overlayTheme, 1);
 
@@ -170,19 +176,22 @@ public class SuperSaiyanScrollView extends FrameLayout
             mOverlayTextColor = context.getResources().getColor(R.color.ssjn__emphasis);
             mOverlayDrawableResId = R.drawable.popup_full_bright;
         }
+        if (mThumbDrawableResource == null)
+            mThumbDrawableResource = res.getDrawable(THUMB_DRAWABLE);
+        if (mThumbPressedDrawableResource == null)
+            mThumbPressedDrawableResource = res.getDrawable(THUMB_DRAWABLE_PRESSED);
         
         log.d("Initialized with mOverlayHeight: %s, mOverlayWidth: %s, mOverlayTextSize: %s, mOverlayTextColor: %s",
                 mOverlayHeight, mOverlayWidth, mOverlayTextSize, mOverlayTextColor);
 
         // Get both the scrollbar states drawables
-        final Resources res = context.getResources();
         StateListDrawable thumbDrawable = new StateListDrawable();
         //This for pressed true 
         thumbDrawable.addState(STATE_PRESSED,
-                res.getDrawable(THUMB_DRAWABLE_PRESSED));
+                res.getDrawable(mThumbPressedDrawableResource));
         //This for pressed false
         thumbDrawable.addState(STATE_UNPRESSED,
-                res.getDrawable(THUMB_DRAWABLE));
+                mThumbDrawableResource);
         useThumbDrawable(thumbDrawable);
 
         mOverlayDrawable = res.getDrawable(mOverlayDrawableResId);
