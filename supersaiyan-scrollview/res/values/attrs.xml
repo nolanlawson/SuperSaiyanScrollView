@@ -16,6 +16,8 @@
             <flag name="dark" value="0"/>
             <flag name="light" value="1"/>
         </attr>
+        <attr name="ssjn_thumbDrawable" format="reference"/>
+        <attr name="ssjn_thumbPressedDrawable" format="reference" />
         
     </declare-styleable>
 
