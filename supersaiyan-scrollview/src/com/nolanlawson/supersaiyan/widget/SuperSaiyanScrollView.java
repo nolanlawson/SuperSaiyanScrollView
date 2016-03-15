@@ -449,10 +449,10 @@ public class SuperSaiyanScrollView extends FrameLayout
         if (sectionIndex >= 0) {
             String sectionName = sections[sectionIndex].toString();
             if(-1 < mOverlayMaxTextLength) {
-                sectionName = sectionName.substring(0, Math.min(mOverlayMaxTextLength, sectionName.length() - 1));
+                sectionName = sectionName.substring(0, Math.min(mOverlayMaxTextLength, sectionName.length()));
                 sectionName = sectionName.length() == mOverlayMaxTextLength ? sectionName + "..." : sectionName;
             }
-            String text = mSectionText = sectionName;
+            String text = mSectionText =sectionName;
             mDrawOverlay = (text.length() != 1 || text.charAt(0) != ' ') &&
                     sectionIndex < sections.length;
         } else {
