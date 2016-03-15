@@ -66,6 +66,7 @@ public class SuperSaiyanScrollView extends FrameLayout
     private int mOverlayWidth;
     private int mOverlayHeight;
     private float mOverlayTextSize;
+    private int mOverlayMaxTextLength;
 
     private boolean mDragging;
     private ListView mList;
@@ -161,6 +162,8 @@ public class SuperSaiyanScrollView extends FrameLayout
                 mOverlayWidth = getContext().getResources().getDimensionPixelSize(scheme.getWidth());
             }
             
+			mOverlayMaxTextLength = typedArray.getInteger(R.styleable.SuperSaiyanScrollView_ssjn_overlayMaxTextLength,-1);
+
             typedArray.recycle();
         } else {
             // no attrs, so initialize with defaults
@@ -444,7 +447,12 @@ public class SuperSaiyanScrollView extends FrameLayout
         }
 
         if (sectionIndex >= 0) {
-            String text = mSectionText = sections[sectionIndex].toString();
+            String sectionName = sections[sectionIndex].toString();
+            if(-1 < mOverlayMaxTextLength) {
+                sectionName = sectionName.substring(0, Math.min(mOverlayMaxTextLength, sectionName.length() - 1));
+                sectionName = sectionName.length() == mOverlayMaxTextLength ? sectionName + "..." : sectionName;
+            }
+            String text = mSectionText = sectionName;
             mDrawOverlay = (text.length() != 1 || text.charAt(0) != ' ') &&
                     sectionIndex < sections.length;
         } else {

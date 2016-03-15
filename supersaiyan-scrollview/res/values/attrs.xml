@@ -2,6 +2,7 @@
 <resources>
 
     <declare-styleable name="SuperSaiyanScrollView">
+        <attr name="ssjn_overlayMaxTextLength" format="integer" />
         <attr name="ssjn_overlayWidth" format="dimension" />
         <attr name="ssjn_overlayHeight" format="dimension" />
         <attr name="ssjn_overlayTextSize" format="dimension" />
@@ -16,6 +17,7 @@
             <flag name="dark" value="0"/>
             <flag name="light" value="1"/>
         </attr>
+
         
     </declare-styleable>
 
